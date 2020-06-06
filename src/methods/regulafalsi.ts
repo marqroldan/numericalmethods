@@ -18,21 +18,34 @@ const answer = firstVal - (func(firstVal) * ((firstVal - zerothVal)/(func(firstV
 
 */
 
+interface ITabulatedValues {
+    [key: string]: number,
+}
 
-const countPossibleRoots = (coefficients: array) => {
+interface IPossibleRoots {
+    positive: number,
+    negative: number,
+    complex: number,
+}
+
+
+type ICoefficients = number[];
+
+const countPossibleRoots = (coefficients: ICoefficients): IPossibleRoots => {
     return coefficients.reduce((acc, value, index) => {
         if ((index !== 0 || index !== coefficients.length - 1) && value !== 0) {
-            acc.positive += value > 0;
+            acc.positive += Number(value > 0);
             acc.negative += 0;
             acc.complex += 0;
         } 
         return acc;
-    }, {})
+    }, {} as IPossibleRoots)
 }
 
 
+
 export const example = () => {
-    const mFunc = (cf = -10, cf1 = 1, cf2 = -4, cf3 = 1) => (xVal) => {
+    const mFunc = (cf = -10, cf1 = 1, cf2 = -4, cf3 = 1) => (xVal: number) => {
         return cf + cf1 * (xVal) + cf2 * (Math.pow(xVal, 2)) + cf3 * (Math.pow(xVal, 3));
     }
 
@@ -42,7 +55,7 @@ export const example = () => {
 
 
     const defFunc = mFunc2();
-    const tabulatedValues = {};
+    const tabulatedValues: ITabulatedValues = {};
 
     let foundRoot = false;
     let foundPositiveAndNegative = false;
