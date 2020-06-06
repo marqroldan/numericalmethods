@@ -1,8 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {example} from './methods/regulafalsi';
 
 function App() {
+
+  example();
+
   return (
     <div className="App">
       <header className="App-header">
