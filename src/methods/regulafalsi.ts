@@ -18,12 +18,30 @@ const answer = firstVal - (func(firstVal) * ((firstVal - zerothVal)/(func(firstV
 
 */
 
+
+const countPossibleRoots = (coefficients: array) => {
+    return coefficients.reduce((acc, value, index) => {
+        if ((index !== 0 || index !== coefficients.length - 1) && value !== 0) {
+            acc.positive += value > 0;
+            acc.negative += 0;
+            acc.complex += 0;
+        } 
+        return acc;
+    }, {})
+}
+
+
 export const example = () => {
     const mFunc = (cf = -10, cf1 = 1, cf2 = -4, cf3 = 1) => (xVal) => {
         return cf + cf1 * (xVal) + cf2 * (Math.pow(xVal, 2)) + cf3 * (Math.pow(xVal, 3));
     }
 
-    const defFunc = mFunc();
+    const mFunc2 = (cf = -20, cf1 = -1, cf2 = 1, cf3 = 0) => (xVal) => {
+        return cf + cf1 * (xVal) + cf2 * (Math.pow(xVal, 2)) + cf3 * (Math.pow(xVal, 3));
+    }
+
+
+    const defFunc = mFunc2();
     const tabulatedValues = {};
 
     let foundRoot = false;
@@ -58,17 +76,25 @@ export const example = () => {
             }
         })
 
+        if (foundRoot) {
+            break;
+        }
+
+
 
         if (tabulatedValues[startXValue] > 0) {
             if (tabulatedValues[lastLeftValue] < 0) {
                 foundPositiveAndNegative = true;
+                break;
             }
         } else if (tabulatedValues[startXValue] < 0) {
             if (tabulatedValues[lastRightValue] > 0) {
                 foundPositiveAndNegative = true;
+                break;
             }
         } else {
             foundRoot = true;
+            break;
             //right bias?
             /*
                 what would be a good bias?
@@ -97,21 +123,11 @@ export const example = () => {
                 startXValue = lastRightValue + 1;
             }
         }
-
-        /*
-        if (tabulatedValues[startXValue] > tabulatedValues[lastLeftValue]) {
-            startXValue += 1;
-        }
-
-
-        startXValue += 1;
-        */
-
-
         console.log(limiter, "TABULATED VALUES", JSON.stringify(tabulatedValues));
         limiter++;
     }
 
+    console.log("Stopped at", startXValue)
     console.log("Final TABULATED VALUES", JSON.stringify(tabulatedValues));
 
 
