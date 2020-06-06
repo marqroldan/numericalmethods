@@ -16,6 +16,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "homepage": "https://marqroldan.github.io/numericalmethods/",
   "eslintConfig": {
     "extends": "react-app"
   },
