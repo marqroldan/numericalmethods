@@ -18,39 +18,56 @@ const answer = firstVal - (func(firstVal) * ((firstVal - zerothVal)/(func(firstV
 
 */
 
-interface ITabulatedValues {
-    [key: string]: number,
+import * as MathInterfaces from '@Utils/math/interfaces';
+import * as MathUtils from '@Utils/math';
+
+export default function(coefficients: MathInterfaces.ICoefficients, smallestNumber: number, largestNumber: number, terminatingConditionValue: number, terminatingCondition: keyof typeof MathUtils.mathOperators) {
+    const mFunc = MathUtils.polynomialFuncFactory(coefficients);
+
+    const iterativeFormula = (xNegNumber: number = smallestNumber, xPosNumber: number = largestNumber) => {
+        return xNegNumber - (mFunc(xNegNumber) * ((xNegNumber - xPosNumber)/(mFunc(xNegNumber) - mFunc(xPosNumber))));
+    }
+
+    const tOperation = MathUtils.mathOperators[terminatingCondition];
+    if (!tOperation) {
+        return {
+            error: 'bad operator',
+        }
+    }
+
+    let resValue = 9999;
+    const result: any = [];
+    let xtValue = iterativeFormula();
+    let xLNumber = smallestNumber;
+    let xRNumber = largestNumber;
+
+    while (!tOperation(resValue, terminatingConditionValue)) {
+        const currRes = {
+            xtValue,
+            xLNumber,
+            xRNumber,
+            fxTValue: mFunc(xtValue),
+            fxLValue: mFunc(xLNumber),
+            fxRValue: mFunc(xRNumber),
+        };
+        
+        result.push(currRes);
+
+
+        if (currRes.fxTValue > 0) {
+            xRNumber = xtValue;
+        } else {
+            xLNumber = xtValue;
+        }
+    }
+
+    console.log("Orayt value!", JSON.stringify(result));
+    return result;
 }
 
-interface IPossibleRoots {
-    positive: number,
-    negative: number,
-    complex: number,
-}
 
-
-type ICoefficients = number[];
-
-const countPossibleRoots = (coefficients: ICoefficients): IPossibleRoots => {
-    return coefficients.reduce((acc, value, index) => {
-        if ((index !== 0 || index !== coefficients.length - 1) && value !== 0) {
-            acc.positive += Number(value > 0);
-            acc.negative += 0;
-            acc.complex += 0;
-        } 
-        return acc;
-    }, {} as IPossibleRoots)
-}
-
-const polynomialFuncFactory = (coefficients: ICoefficients) => (xValue: number) => {
-    return coefficients.reduce((acc: number, value, index) => {
-        return acc + value * (Math.pow(xValue, index)); 
-    }, 0)
-}
-
-
-
-export const example = () => {
+export const example = () => null;
+export const example2 = () => {
     const mFunc = (cf = -10, cf1 = 1, cf2 = -4, cf3 = 1) => (xVal: number) => {
         return cf + cf1 * (xVal) + cf2 * (Math.pow(xVal, 2)) + cf3 * (Math.pow(xVal, 3));
     }
