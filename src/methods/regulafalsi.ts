@@ -42,6 +42,12 @@ const countPossibleRoots = (coefficients: ICoefficients): IPossibleRoots => {
     }, {} as IPossibleRoots)
 }
 
+const polynomialFuncFactory = (coefficients: ICoefficients) => (xValue: number) => {
+    return coefficients.reduce((acc: number, value, index) => {
+        return acc + value * (Math.pow(xValue, index)); 
+    }, 0)
+}
+
 
 
 export const example = () => {
@@ -71,16 +77,15 @@ export const example = () => {
         let lastLeftValue = startXValue - 1;
         let lastRightValue = startXValue + 1;
 
-        if (!tabulatedValues[startXValue] || !tabulatedValues[lastLeftValue] || !tabulatedValues[lastRightValue]) {
-            if (typeof tabulatedValues[startXValue] !== 'number') {
-                tabulatedValues[startXValue] = defFunc(startXValue);
-            }
-            if (typeof !tabulatedValues[lastLeftValue] !== 'number') {
-                tabulatedValues[lastLeftValue] = defFunc(lastLeftValue);
-            }
-            if (typeof !tabulatedValues[lastRightValue] !== 'number') {
-                tabulatedValues[lastRightValue] = defFunc(lastRightValue);
-            }
+        
+        if (typeof tabulatedValues[startXValue] !== 'number') {
+            tabulatedValues[startXValue] = defFunc(startXValue);
+        }
+        if (typeof !tabulatedValues[lastLeftValue] !== 'number') {
+            tabulatedValues[lastLeftValue] = defFunc(lastLeftValue);
+        }
+        if (typeof !tabulatedValues[lastRightValue] !== 'number') {
+            tabulatedValues[lastRightValue] = defFunc(lastRightValue);
         }
         
         [startXValue, lastLeftValue, lastRightValue].map(val => {
