@@ -21,7 +21,7 @@ const answer = firstVal - (func(firstVal) * ((firstVal - zerothVal)/(func(firstV
 import * as MathInterfaces from '@Utils/math/interfaces';
 import * as MathUtils from '@Utils/math';
 
-export default function(coefficients: MathInterfaces.ICoefficients, smallestNumber: number, largestNumber: number, terminatingConditionValue: number, terminatingCondition: keyof typeof MathUtils.mathOperators) {
+export default function(coefficients: MathInterfaces.ICoefficients, smallestNumber: number, largestNumber: number, terminatingConditionValue: number, terminatingCondition: keyof typeof MathUtils.mathOperators = 'lte') {
     const mFunc = MathUtils.polynomialFuncFactory(coefficients);
 
     const iterativeFormula = (xNegNumber: number = smallestNumber, xPosNumber: number = largestNumber) => {
@@ -37,11 +37,11 @@ export default function(coefficients: MathInterfaces.ICoefficients, smallestNumb
 
     let resValue = 9999;
     const result: any = [];
-    let xtValue = iterativeFormula();
     let xLNumber = smallestNumber;
     let xRNumber = largestNumber;
 
     while (!tOperation(resValue, terminatingConditionValue)) {
+        let xtValue = iterativeFormula(xLNumber, xRNumber);
         const currRes = {
             xtValue,
             xLNumber,
@@ -52,6 +52,7 @@ export default function(coefficients: MathInterfaces.ICoefficients, smallestNumb
         };
         
         result.push(currRes);
+        resValue = xtValue;
 
 
         if (currRes.fxTValue > 0) {
