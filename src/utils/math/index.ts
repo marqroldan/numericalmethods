@@ -16,3 +16,10 @@ export const polynomialFuncFactory = (coefficients: MathInterfaces.ICoefficients
         return acc + value * (Math.pow(xValue, index)); 
     }, 0)
 }
+
+export const mathOperators = {
+    lt: (a: number, b: number) => a < b,
+    lte: (a: number, b: number) => a <= b,
+    gt: (a: number, b: number) => a > b,
+    gte: (a: number, b: number) => a >= b,
+}
