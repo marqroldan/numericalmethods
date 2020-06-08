@@ -90,7 +90,8 @@
   },
   "devDependencies": {
     "gh-pages": "^3.0.0",
-    "patch-package": "^6.2.2"
+    "patch-package": "^6.2.2",
+    "ts-loader": "^7.0.5"
   },
   "jest": {
     "roots": [

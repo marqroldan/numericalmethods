@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {example} from './methods/regulafalsi';
+import {example} from '@Methods/regulafalsi';
 
 function App() {
 
