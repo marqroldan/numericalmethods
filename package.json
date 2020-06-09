@@ -34,6 +34,7 @@
     "bundle": "webpack",
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --mode production",
+    "deploy": "gh-pages -d dist",
     "check-types": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
