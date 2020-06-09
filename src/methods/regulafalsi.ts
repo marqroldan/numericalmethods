@@ -40,7 +40,11 @@ export default function(coefficients: MathInterfaces.ICoefficients, smallestNumb
     let xLNumber = smallestNumber;
     let xRNumber = largestNumber;
 
-    while (!tOperation(resValue, terminatingConditionValue)) {
+    let subtractor = 0;
+    const decimalPlaces: number = terminatingConditionValue.toString().split('.').pop().length || 4;
+
+    while (!tOperation(parseFloat(Math.abs(resValue - subtractor).toFixed(decimalPlaces)), terminatingConditionValue)) {
+        console.log(resValue.toPrecision(decimalPlaces));
         let xtValue = iterativeFormula(xLNumber, xRNumber);
         const currRes = {
             xtValue,
@@ -56,10 +60,14 @@ export default function(coefficients: MathInterfaces.ICoefficients, smallestNumb
 
 
         if (currRes.fxTValue > 0) {
+            subtractor = xRNumber;
             xRNumber = xtValue;
         } else {
+            subtractor = xLNumber;
             xLNumber = xtValue;
         }
+        console.table(result);
+        //console.log("EYYYYY", JSON.stringify(currRes));
     }
 
     console.log("Orayt value!", JSON.stringify(result));
@@ -67,7 +75,9 @@ export default function(coefficients: MathInterfaces.ICoefficients, smallestNumb
 }
 
 
-export const example = () => null;
+export const example = () => {
+    console.log("YESSIR!")
+};
 export const example2 = () => {
     const mFunc = (cf = -10, cf1 = 1, cf2 = -4, cf3 = 1) => (xVal: number) => {
         return cf + cf1 * (xVal) + cf2 * (Math.pow(xVal, 2)) + cf3 * (Math.pow(xVal, 3));

@@ -1,11 +1,13 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {example} from '@Methods/regulafalsi';
+import RegulaFalsi, {example} from '@Methods/regulafalsi';
 
 function App() {
 
-  example();
+  RegulaFalsi([
+    -10,1,-4,1
+  ],4,5,0.0001,'lte')
 
   return (
     <div className="App">
