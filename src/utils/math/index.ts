@@ -23,3 +23,11 @@ export const mathOperators = {
     gt: (a: number, b: number) => a > b,
     gte: (a: number, b: number) => a >= b,
 }
+
+export const getSignificantDigits = (value: number) => {
+    const actualSignificantDigit = value.toString()
+    .replace( /^0\.?0*|\./, '')    // remove decimal point and leading zeros
+    .length;
+    const numberOfDecimalPlaces = value.toString().split('.').pop()?.length;
+  return actualSignificantDigit + numberOfDecimalPlaces;
+}

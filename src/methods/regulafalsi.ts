@@ -21,6 +21,8 @@ const answer = firstVal - (func(firstVal) * ((firstVal - zerothVal)/(func(firstV
 import * as MathInterfaces from '@Utils/math/interfaces';
 import * as MathUtils from '@Utils/math';
 
+window['polynomialFuncFactory'] = MathUtils.polynomialFuncFactory;
+
 export default function(coefficients: MathInterfaces.ICoefficients, smallestNumber: number, largestNumber: number, terminatingConditionValue: number, terminatingCondition: keyof typeof MathUtils.mathOperators = 'lte') {
     const mFunc = MathUtils.polynomialFuncFactory(coefficients);
 
@@ -42,17 +44,20 @@ export default function(coefficients: MathInterfaces.ICoefficients, smallestNumb
 
     let subtractor = 0;
     const decimalPlaces: number = terminatingConditionValue.toString().split('.').pop().length || 4;
+    const significantDigits = MathUtils.getSignificantDigits(terminatingConditionValue);
+
+    console.log("Significant Digits", significantDigits);
 
     while (!tOperation(parseFloat(Math.abs(resValue - subtractor).toFixed(decimalPlaces)), terminatingConditionValue)) {
         console.log(resValue.toPrecision(decimalPlaces));
-        let xtValue = iterativeFormula(xLNumber, xRNumber);
+        let xtValue = parseFloat(iterativeFormula(xLNumber, xRNumber).toPrecision(significantDigits));
         const currRes = {
             xtValue,
             xLNumber,
             xRNumber,
-            fxTValue: mFunc(xtValue),
-            fxLValue: mFunc(xLNumber),
-            fxRValue: mFunc(xRNumber),
+            fxTValue: parseFloat(mFunc(xtValue).toPrecision(significantDigits)),
+            fxLValue: parseFloat(mFunc(xLNumber).toPrecision(significantDigits)),
+            fxRValue: parseFloat(mFunc(xRNumber).toPrecision(significantDigits)),
         };
         
         result.push(currRes);
