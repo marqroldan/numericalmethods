@@ -148,7 +148,15 @@ class NumericalMethod {
         ),
         this.terminatingConditionValue
       )) &&
-      this.limitCounter <= this.limit
+      this.limitCounter <= this.limit 
+      /*
+
+      (
+        isFinite(this.derivedNumber) &&
+        isFinite(this.smallestNumber) &&
+        isFinite(this.largestNumber)
+      ) &&
+      */
     ) {
       console.log(
         this._iterations.length + 1,
@@ -164,6 +172,12 @@ class NumericalMethod {
       let derivedNumber = parseFloat(
         this.formula().toPrecision(derivedNumberDigits)
       );
+
+      if (!isFinite(derivedNumber)) {
+        break;
+      }
+
+
       const resObj: IterationValue = {
         derivedNumber,
         smallestNumber: parseFloat(
