@@ -81,6 +81,12 @@ class NumericalMethod {
       }
     }
   }
+  
+  protected _errorList: string[] = [];
+
+  get errorList() {
+    return this._errorList;
+  }
 
   private limitCounter: number = 0;
   limit: number = 100;
@@ -114,6 +120,7 @@ class NumericalMethod {
 
   process = (smallestNumber: number, largestNumber: number): void => {
     this._iterations = [];
+    this._errorList = [];
     this.smallestNumber = smallestNumber;
     this.largestNumber = largestNumber;
 
@@ -174,9 +181,9 @@ class NumericalMethod {
       );
 
       if (!isFinite(derivedNumber)) {
+        this._errorList.push(`Derived number is non-finite at ${this._iterations.length + 1}`);
         break;
       }
-
 
       const resObj: IterationValue = {
         derivedNumber,
@@ -197,6 +204,9 @@ class NumericalMethod {
       this.limitCounter++;
     }
 
+    if(this._errorList.length) {
+      console.error(this._errorList);
+    }
     console.log('Iterations: ', this._iterations.length);
   };
 }
