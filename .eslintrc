@@ -3,6 +3,8 @@
     "plugins": ["@typescript-eslint"],
     "rules": {
       "semi": ["error", "never"],
-      "quotes": [2, "single"]
+      "quotes": [2, "single"],
+      "react-hooks/rules-of-hooks": "error",
+      "react-hooks/exhaustive-deps": "warn"
     }
-  }
+}
