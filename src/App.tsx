@@ -1,13 +1,16 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import RegulaFalsi, {example} from '@Methods/regulafalsi';
+import RegulaFalsi from '@Methods/regulafalsi';
 
 function App() {
 
-  RegulaFalsi([
+  const method = new RegulaFalsi();
+  method.coefficients = [
     -10,1,-4,1
-  ],4,5,0.0001,'lte')
+  ];
+  
+  method.process(4, 5);
 
   return (
     <div className="App">
