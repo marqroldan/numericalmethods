@@ -24,12 +24,15 @@ export default class RegulaFalsi extends NumericalMethod {
     constructor() {
         super();
         this.rule = (resObj: IterationValue) => {
+            this.maxSubtractor = this.largestNumber;
+            this.minSubtractor = this.smallestNumber;
+        
             if (resObj.f_derivedNumber > 0) {
-                this.subtractor = this.largestNumber;
-                this.largestNumber = resObj.derivedNumber;
+              this.maxSubtractor = this.largestNumber;
+              this.largestNumber = resObj.derivedNumber;
             } else {
-                this.subtractor = this.smallestNumber;
-                this.smallestNumber = resObj.derivedNumber;
+              this.minSubtractor = this.smallestNumber;
+              this.smallestNumber = resObj.derivedNumber;
             }
         };
         this.formula = () => {
