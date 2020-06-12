@@ -18,12 +18,29 @@ const answer = firstVal - (func(firstVal) * ((firstVal - zerothVal)/(func(firstV
 
 */
 
-import * as MathInterfaces from '@Utils/math/interfaces';
-import * as MathUtils from '@Utils/math';
+import NumericalMethod, {IterationValue} from './index';
 
-window['polynomialFuncFactory'] = MathUtils.polynomialFuncFactory;
+export default class RegulaFalsi extends NumericalMethod {
+    constructor() {
+        super();
+        this.rule = (resObj: IterationValue) => {
+            if (resObj.f_derivedNumber > 0) {
+                this.subtractor = this.largestNumber;
+                this.largestNumber = resObj.derivedNumber;
+            } else {
+                this.subtractor = this.smallestNumber;
+                this.smallestNumber = resObj.derivedNumber;
+            }
+        };
+        this.formula = () => {
+            return this.smallestNumber - (this.polynomialFunction(this.smallestNumber) * ((this.smallestNumber - this.largestNumber)/(this.polynomialFunction(this.smallestNumber) - this.polynomialFunction(this.largestNumber))));
+        }
+    }
+}
 
-export default function(coefficients: MathInterfaces.ICoefficients, smallestNumber: number, largestNumber: number, terminatingConditionValue: number, terminatingCondition: keyof typeof MathUtils.mathOperators = 'lte') {
+/*
+
+function(coefficients: MathInterfaces.ICoefficients, smallestNumber: number, largestNumber: number, terminatingConditionValue: number, terminatingCondition: keyof typeof MathUtils.mathOperators = 'lte') {
     const mFunc = MathUtils.polynomialFuncFactory(coefficients);
 
     const iterativeFormula = (xNegNumber: number = smallestNumber, xPosNumber: number = largestNumber) => {
@@ -146,10 +163,6 @@ export const example2 = () => {
         } else {
             foundRoot = true;
             break;
-            //right bias?
-            /*
-                what would be a good bias?
-            */
         }
 
         const compareLeft = tabulatedValues[startXValue] > tabulatedValues[lastLeftValue];
@@ -194,3 +207,5 @@ export const example2 = () => {
 
 
 }
+
+*/
