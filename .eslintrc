@@ -1,10 +1,16 @@
 {
     "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint"],
+    "plugins": ["@typescript-eslint", "react", "react-hooks"],
     "rules": {
-      "semi": ["error", "never"],
       "quotes": [2, "single"],
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "warn"
+    },
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "modules": true
+      }
     }
 }
