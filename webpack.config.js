@@ -37,8 +37,8 @@ module.exports = {
 
       // css-loader to bundle all the css files into one file and style-loader to add all the styles  inside the style tag of the document
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        test: /\.(s)css$/,
+        use: ['style-loader', 'css-loader', 'sass-loader']
       },
       { test: /\.(png|jpg|jpeg|gif)$/, loader: 'url-loader?limit=100000' },
       { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
