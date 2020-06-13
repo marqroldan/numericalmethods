@@ -4,7 +4,8 @@
     "rules": {
       "quotes": [2, "single"],
       "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn"
+      "react-hooks/exhaustive-deps": "warn",
+      "no-multiple-empty-lines": "error"
     },
     "parserOptions": {
       "ecmaVersion": 6,
