@@ -90,7 +90,7 @@ class NumericalMethod {
 
   private limitCounter: number = 0;
   limit: number = 100;
-  formula: Function | undefined;
+  protected formula: Function | undefined;
 
   protected derivedNumber: number = 99999;
   protected minSubtractor: number = 0;
