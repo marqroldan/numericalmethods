@@ -16,8 +16,10 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
     alias: {
-      "@Methods": path.resolve(__dirname, "src/methods"),
-      "@Utils": path.resolve(__dirname, "src/utils")
+      '@Components': path.resolve(__dirname, 'src/components'),
+      '@Styles': path.resolve(__dirname, 'src/styles'),
+      '@Methods': path.resolve(__dirname, 'src/methods'),
+      '@Utils': path.resolve(__dirname, 'src/utils')
     }
   },
 
@@ -38,9 +40,9 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       },
-      { test: /\.(png|jpg|jpeg|gif)$/, loader: "url-loader?limit=100000" },
-      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
-      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" }
+      { test: /\.(png|jpg|jpeg|gif)$/, loader: 'url-loader?limit=100000' },
+      { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'url-loader?limit=10000&mimetype=application/font-woff' },
+      { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: 'file-loader' }
     ]
   },
   plugins: [

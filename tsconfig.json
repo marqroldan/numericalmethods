@@ -20,6 +20,8 @@
 		"jsx": "react",
 		"baseUrl": "./src",
 "paths": {
+    "@Styles/*": ["styles/*"],
+    "@Components/*": ["components/*"],
     "@Methods/*": ["methods/*"],
     "@Utils/*": ["utils/*"]
 },
