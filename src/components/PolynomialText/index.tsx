@@ -22,15 +22,18 @@ export default class PolynomialText extends React.PureComponent<Props> {
           let res: JSX.Element = <></>;
 
           let numText = '';
-          if (parseFloat(coeff) !== 1) {
+          if (Math.abs(parseFloat(coeff)) !== 1) {
             if (index === 0) {
               numText = coeff;
             } else {
               numText = parseFloat(coeff) >= 0 ? `+${coeff}` : coeff;
             }
           } else {
-            if (index !== 0) {
-              numText = '+';
+            numText = '-';
+            if (parseFloat(coeff) > 0) {
+              if (index !== 0) {
+                numText = '+';
+              }
             }
           }
 
