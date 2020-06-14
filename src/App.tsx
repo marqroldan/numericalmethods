@@ -60,10 +60,34 @@ function App() {
 
             <FieldGroup label={'Rounding rules'}>
               <Field>
-                <Input className={'small'} />
+                <Input
+                  className={'small center'}
+                  sublabel={
+                    <>
+                      X<sub>0</sub>
+                    </>
+                  }
+                />
               </Field>
               <Field>
-                <Input className={'small'} />
+                <Input
+                  className={'small center'}
+                  sublabel={
+                    <>
+                      X<sub>1</sub>
+                    </>
+                  }
+                />
+              </Field>
+              <Field>
+                <Input
+                  className={'small center'}
+                  sublabel={
+                    <>
+                      X<sub>2</sub>
+                    </>
+                  }
+                />
               </Field>
             </FieldGroup>
           </div>
