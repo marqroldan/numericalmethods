@@ -22,8 +22,8 @@ function App() {
 
   return (
     <div className="_container">
-      <form>
-        <Header>
+      <Header>
+        <form className={'form flexCenterBetween'}>
           <div style={{ display: 'flex', flex: 1 }}>
             <FieldGroup>
               <Field label={'Coefficients'}>
@@ -94,8 +94,8 @@ function App() {
           <div>
             <input type={'submit'} />
           </div>
-        </Header>
-      </form>
+        </form>
+      </Header>
       <Main></Main>
     </div>
   );

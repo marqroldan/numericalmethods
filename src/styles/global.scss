@@ -28,5 +28,15 @@ code {
   height: 100%;
 }
 
+.form {
+  height: 100%;
+}
+
+.flexCenterBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 @import 'components/text.scss';
 @import 'components/input.scss';
