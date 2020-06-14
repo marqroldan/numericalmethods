@@ -1,3 +1,3 @@
 export function isNonNullOrUndefined(value: any) {
-  return value !== null || value !== undefined;
+  return value !== null && value !== undefined;
 }
