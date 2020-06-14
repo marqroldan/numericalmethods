@@ -15,6 +15,8 @@
   top: 0;
   left: 0;
   bottom: 0;
+  padding-top: 3px;
+  padding-bottom: 6px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   display: flex;
@@ -24,6 +26,16 @@
   text-align: center;
   cursor: pointer;
   z-index: 10;
+
+  &:hover,
+  &--expanded {
+    background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.27) 0%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
 
   &--expanded {
     width: 100%;
@@ -40,13 +52,17 @@
     width: 25px;
     flex: 1;
     border-radius: 8px;
-    padding: 5px;
+    padding-top: 3px;
+    padding-bottom: 6px;
     cursor: pointer;
     margin: 0 5px;
 
-    &:first-child,
+    &:first-child {
+      margin-left: 0px !important;
+    }
+
     &:last-child {
-      margin: 0px;
+      margin-right: 0px !important;
     }
 
     &:hover {
