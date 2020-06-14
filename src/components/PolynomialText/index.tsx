@@ -28,6 +28,10 @@ export default class PolynomialText extends React.PureComponent<Props> {
             } else {
               numText = parseFloat(coeff) >= 0 ? `+${coeff}` : coeff;
             }
+          } else {
+            if (index !== 0) {
+              numText = '+';
+            }
           }
 
           const expText = coefficients.length - (index + 1);
