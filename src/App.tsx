@@ -8,12 +8,15 @@ import Header from '@Components/Header';
 import Main from '@Components/Main';
 import Field from '@Components/Field';
 import Input from '@Components/Input';
+import ButtonDropdown from '@Components/ButtonDropdown';
 
 import FieldGroup from '@Components/FieldGroup';
 import Options from '@Components/Options';
 import { mathOperatorsArr } from '@Utils/math';
 
 export default class App extends React.PureComponent {
+  formRef = React.createRef<HTMLFormElement>();
+
   state = {
     smallestNumber: 4,
     largestNumber: 5,
@@ -39,7 +42,7 @@ export default class App extends React.PureComponent {
     return (
       <div className="_container">
         <Header>
-          <form className={'form flexCenterBetween'}>
+          <form ref={this.formRef} className={'form flexCenterBetween'}>
             <div style={{ display: 'flex', flex: 1 }}>
               <FieldGroup>
                 <Field label={'Coefficients'}>
