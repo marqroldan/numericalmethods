@@ -16,7 +16,7 @@ function SvgComponent(props: Props) {
       <path
         d="M15 1L8 9 1 1"
         stroke={props.color ? props.color : '#fff'}
-        strokeOpacity={0.5}
+        strokeOpacity={0.9}
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
