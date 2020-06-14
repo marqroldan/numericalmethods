@@ -1,6 +1,7 @@
 import './styles.scss';
 import React from 'react';
 import Text from '@Components/Text';
+import { isNonNullOrUndefined } from '@Utils/';
 
 interface Props {
   type?: string;
@@ -73,11 +74,13 @@ export default class Input extends React.PureComponent<ClassProps> {
           className={this.state.className}
           required
         />
-        <div className={'Input__sublabel'}>
-          <Text className={'sublabel'}>
-            {typeof sublabel === 'function' ? sublabel() : sublabel}
-          </Text>
-        </div>
+        {isNonNullOrUndefined(sublabel) ? (
+          <div className={'Input__sublabel'}>
+            <Text className={'sublabel'}>
+              {typeof sublabel === 'function' ? sublabel() : sublabel}
+            </Text>
+          </div>
+        ) : null}
       </div>
     );
   }

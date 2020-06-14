@@ -76,7 +76,7 @@ export default class App extends React.PureComponent {
                     selectedValue={this.state.selectedOperator}
                     onChange={this.selectedOperatorChange}
                   />
-                  <input type={'text'} />
+                  <Input className={'options-left'} />
                 </Field>
               </FieldGroup>
 
