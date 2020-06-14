@@ -2,4 +2,8 @@ import Bisection from './bisection';
 import Secant from './secant';
 import RegulaFalsi from './regulafalsi';
 
-export default { Bisection, Secant, RegulaFalsi };
+interface Test {
+  [key: string]: any;
+}
+
+export default { Bisection, Secant, RegulaFalsi } as Test;

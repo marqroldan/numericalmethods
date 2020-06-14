@@ -17,7 +17,12 @@ import { mathOperatorsArr } from '@Utils/math';
 
 const MethodsList = Object.keys(NumericalMethods);
 
-export default class App extends React.PureComponent {
+interface State {
+  [key: string]: any;
+  method: typeof NumericalMethods;
+}
+
+export default class App extends React.PureComponent<{}, State> {
   formRef = React.createRef<HTMLFormElement>();
 
   state = {
@@ -30,6 +35,7 @@ export default class App extends React.PureComponent {
     rr_derivedNumber: 5,
     terminatingOperation: '',
     terminatingConditionValue: 0.0001,
+    iterations: [],
   };
 
   btnClick = () => {
@@ -44,7 +50,24 @@ export default class App extends React.PureComponent {
   };
 
   formSubmit = () => {
+    const method = new NumericalMethods[this.state.method]();
+
+    method.coefficients = this.state.coefficients
+      .split(' ')
+      .map((item) => parseFloat(item));
+
+    method.roundingRules = {
+      smallestNumber: this.state.rr_smallestNumber,
+      largestNumber: this.state.rr_largestNumber,
+      derivedNumber: this.state.rr_derivedNumber,
+    };
+    method.process(this.state.smallestNumber, this.state.largestNumber);
+
     console.log('Form submitted');
+
+    this.setState({
+      iterations: method.iterations,
+    });
   };
 
   render() {
@@ -160,7 +183,14 @@ export default class App extends React.PureComponent {
             </div>
           </form>
         </Header>
-        <Main>testy {JSON.stringify(this.state)}</Main>
+        <Main>
+          testy {JSON.stringify(this.state)}
+          <div>
+            {this.state.iterations.map((item, index) => {
+              return <div key={`${index}__`}>{JSON.stringify(item)}</div>;
+            })}
+          </div>
+        </Main>
       </div>
     );
   }
