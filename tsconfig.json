@@ -22,6 +22,7 @@
     "paths": {
       "@Styles/*": ["styles/*"],
       "@Components/*": ["components/*"],
+      "@Assets/*": ["assets/*"],
       "@Methods/*": ["methods/*"],
       "@Methods": ["methods/index.ts"],
       "@Utils/*": ["utils/*"],
