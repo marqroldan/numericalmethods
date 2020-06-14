@@ -1,12 +1,14 @@
 import './styles.scss';
 import React from 'react';
 import Text from '@Components/Text';
-import { isNonNullOrUndefined } from '@Utils/';
+import { isNonNullOrUndefined } from '@Utils';
 
 interface Props {
   type?: string;
   className?: string;
   sublabel?: string | Function | JSX.Element;
+  onChangeValue: Function;
+  value: string | number;
 }
 
 const ComponentName = 'Input';
@@ -22,7 +24,10 @@ export default class Input extends React.PureComponent<ClassProps> {
     this.recheckClassName(null, true);
   }
 
-  recheckClassName = (prevProps: Readonly<ClassProps>, override = false) => {
+  recheckClassName = (
+    prevProps: Readonly<ClassProps> | null,
+    override = false
+  ) => {
     if (
       (prevProps && prevProps.className !== this.props.className) ||
       override
@@ -65,6 +70,12 @@ export default class Input extends React.PureComponent<ClassProps> {
     }
   }
 
+  onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event?.target?.value && this.props.onChange) {
+      this.props.onChangeValue(event.target.value);
+    }
+  };
+
   render() {
     const { sublabel } = this.props;
     return (
@@ -72,6 +83,8 @@ export default class Input extends React.PureComponent<ClassProps> {
         <input
           type={this.state.type}
           className={this.state.className}
+          value={this.props.value}
+          onChange={this.onChange}
           required
         />
         {isNonNullOrUndefined(sublabel) ? (
