@@ -54,11 +54,17 @@ export default class ButtonDropdown extends React.PureComponent<Props, State> {
     );
   };
 
+  onClick = () => {
+    if (this.props.onClick) {
+      this.props.onClick();
+    }
+  };
+
   render() {
     return (
       <div className={'ButtonDropdownContainer'}>
         <div className={'ButtonDropdown'}>
-          <div className={'ButtonDropdown__methodName'}>
+          <div className={'ButtonDropdown__methodName'} onClick={this.onClick}>
             {this.props.value || 'Select Method'}
           </div>
           <div
