@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface Props {
-  color: string;
+  color?: string;
 }
 
 function SvgComponent(props: Props) {
