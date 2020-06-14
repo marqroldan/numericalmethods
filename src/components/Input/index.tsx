@@ -71,7 +71,7 @@ export default class Input extends React.PureComponent<ClassProps> {
   }
 
   onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event?.target?.value && this.props.onChange) {
+    if (event?.target?.value && this.props.onChangeValue) {
       this.props.onChangeValue(event.target.value);
     }
   };
