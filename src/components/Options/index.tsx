@@ -28,7 +28,9 @@ export default class Options extends React.PureComponent<Props, State> {
 
   updateVisual = () => {
     if (Array.isArray(this.props.options)) {
+      console.log('Working...');
       if (!this.props.value && this.props.options[0].value) {
+        console.log('Selecting...');
         this.selectItem(this.props.options[0])();
       }
     }
@@ -45,8 +47,11 @@ export default class Options extends React.PureComponent<Props, State> {
   };
 
   selectItem = (item: IOptions) => () => {
-    if (this.props.onChange && typeof this.props.onChange === 'function') {
-      this.props.onChange(item.value);
+    if (
+      this.props.onChangeValue &&
+      typeof this.props.onChangeValue === 'function'
+    ) {
+      this.props.onChangeValue(item.value);
     }
   };
 

@@ -23,7 +23,8 @@ method.process(5, 6);
 
 export default class App extends React.PureComponent {
   state = {
-    selectedOperator: '',
+    terminatingOperation: '',
+    terminatingConditionValue: 0.0001,
   };
 
   btnClick = () => {
@@ -73,10 +74,16 @@ export default class App extends React.PureComponent {
                 <Field label={'Terminating Conditions'}>
                   <Options
                     options={mathOperatorsArr}
-                    value={this.state.selectedOperator}
-                    onChangeValue={this.valueChange('selectedOperator')}
+                    value={this.state.terminatingOperation}
+                    onChangeValue={this.valueChange('terminatingOperation')}
                   />
-                  <Input className={'options-left'} />
+                  <Input
+                    value={this.state.terminatingConditionValue}
+                    onChangeValue={this.valueChange(
+                      'terminatingConditionValue'
+                    )}
+                    className={'options-left'}
+                  />
                 </Field>
               </FieldGroup>
 
