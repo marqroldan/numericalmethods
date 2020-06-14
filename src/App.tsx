@@ -54,6 +54,7 @@ export default class App extends React.PureComponent<{}, State> {
 
     method.coefficients = this.state.coefficients
       .split(' ')
+      .reverse()
       .map((item) => parseFloat(item));
 
     method.roundingRules = {
