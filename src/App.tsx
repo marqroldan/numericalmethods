@@ -13,16 +13,13 @@ import FieldGroup from '@Components/FieldGroup';
 import Options from '@Components/Options';
 import { mathOperatorsArr } from '@Utils/math';
 
-const METHOD = NumericalMethods.Bisection;
-const method = new METHOD();
-method.coefficients = [-10, 1, -4, 1];
-
-method.roundingRules = 4;
-
-method.process(5, 6);
-
 export default class App extends React.PureComponent {
   state = {
+    smallestNumber: 4,
+    largestNumber: 5,
+    rr_smallestNumber: 5,
+    rr_largestNumber: 5,
+    rr_derivedNumber: 5,
     terminatingOperation: '',
     terminatingConditionValue: 0.0001,
   };
@@ -32,6 +29,7 @@ export default class App extends React.PureComponent {
   };
 
   valueChange = (target: string) => (value: string) => {
+    console.log('triggered');
     this.setState({
       [target]: value,
     });
@@ -45,7 +43,10 @@ export default class App extends React.PureComponent {
             <div style={{ display: 'flex', flex: 1 }}>
               <FieldGroup>
                 <Field label={'Coefficients'}>
-                  <input type={'text'} />
+                  <Input
+                    value={this.state.smallestNumber}
+                    onChangeValue={this.valueChange('smallestNumber')}
+                  />
                 </Field>
               </FieldGroup>
 
@@ -57,7 +58,11 @@ export default class App extends React.PureComponent {
                     </>
                   }
                 >
-                  <Input className={'small'} />
+                  <Input
+                    className={'small'}
+                    value={this.state.smallestNumber}
+                    onChangeValue={this.valueChange('smallestNumber')}
+                  />
                 </Field>
                 <Field
                   label={
@@ -66,7 +71,11 @@ export default class App extends React.PureComponent {
                     </>
                   }
                 >
-                  <Input className={'small'} />
+                  <Input
+                    className={'small'}
+                    value={this.state.largestNumber}
+                    onChangeValue={this.valueChange('largestNumber')}
+                  />
                 </Field>
               </FieldGroup>
 
@@ -82,7 +91,7 @@ export default class App extends React.PureComponent {
                     onChangeValue={this.valueChange(
                       'terminatingConditionValue'
                     )}
-                    className={'options-left'}
+                    className={'options-left medium'}
                   />
                 </Field>
               </FieldGroup>
@@ -90,6 +99,8 @@ export default class App extends React.PureComponent {
               <FieldGroup label={'Rounding rules'}>
                 <Field>
                   <Input
+                    value={this.state.rr_smallestNumber}
+                    onChangeValue={this.valueChange('rr_smallestNumber')}
                     className={'small center'}
                     sublabel={
                       <>
@@ -100,6 +111,8 @@ export default class App extends React.PureComponent {
                 </Field>
                 <Field>
                   <Input
+                    value={this.state.rr_largestNumber}
+                    onChangeValue={this.valueChange('rr_largestNumber')}
                     className={'small center'}
                     sublabel={
                       <>
@@ -110,6 +123,8 @@ export default class App extends React.PureComponent {
                 </Field>
                 <Field>
                   <Input
+                    value={this.state.rr_derivedNumber}
+                    onChangeValue={this.valueChange('rr_derivedNumber')}
                     className={'small center'}
                     sublabel={
                       <>
