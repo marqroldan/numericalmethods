@@ -23,16 +23,16 @@ method.process(5, 6);
 
 export default class App extends React.PureComponent {
   state = {
-    selectedOperator: 'lte',
+    selectedOperator: '',
   };
 
   btnClick = () => {
     console.log('I GOT PRESSED EYYY');
   };
 
-  selectedOperatorChange = (value: string) => {
+  valueChange = (target: string) => (value: string) => {
     this.setState({
-      selectedOperator: value,
+      [target]: value,
     });
   };
 
@@ -74,7 +74,7 @@ export default class App extends React.PureComponent {
                   <Options
                     options={mathOperatorsArr}
                     selectedValue={this.state.selectedOperator}
-                    onChange={this.selectedOperatorChange}
+                    onChange={this.valueChange('selectedOperator')}
                   />
                   <Input className={'options-left'} />
                 </Field>
@@ -118,44 +118,7 @@ export default class App extends React.PureComponent {
             </div>
           </form>
         </Header>
-        <Main>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <div
-              style={{
-                padding: 20,
-                backgroundColor: 'red',
-                height: 100,
-                width: 100,
-                position: 'relative',
-              }}
-            >
-              asdkljadsl
-              <div
-                style={{
-                  display: 'inline-flex',
-                  padding: 10,
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  backgroundColor: 'rgba(255,255,255,0.6)',
-                }}
-              >
-                testy
-              </div>
-            </div>
-            <div onClick={this.btnClick}>asdasdasd</div>
-            <input type="button" value="hi" />
-          </div>
-        </Main>
+        <Main>testy {JSON.stringify(this.state)}</Main>
       </div>
     );
   }
