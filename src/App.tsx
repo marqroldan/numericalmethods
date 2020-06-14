@@ -6,7 +6,10 @@ import NumericalMethods from '@Methods';
 
 import Header from '@Components/Header';
 import Main from '@Components/Main';
-import Text from '@Components/Text';
+import Field from '@Components/Field';
+import Input from '@Components/Input';
+
+import FieldGroup from '@Components/FieldGroup';
 
 function App() {
   const METHOD = NumericalMethods.Bisection;
@@ -19,13 +22,56 @@ function App() {
 
   return (
     <div className="_container">
-      <Header>
-        <div style={{ display: 'flex', flex: 1 }}>
-          <input type={'text'} />
-          <Text className={'label'}>COEFFICIENTS</Text>
-        </div>
-        <input type={'text'} />
-      </Header>
+      <form>
+        <Header>
+          <div style={{ display: 'flex', flex: 1 }}>
+            <FieldGroup>
+              <Field label={'Coefficients'}>
+                <input type={'text'} />
+              </Field>
+            </FieldGroup>
+
+            <FieldGroup>
+              <Field
+                label={
+                  <>
+                    Min (X<sub>0</sub>)
+                  </>
+                }
+              >
+                <Input className={'small'} />
+              </Field>
+              <Field
+                label={
+                  <>
+                    Max (X<sub>1</sub>)
+                  </>
+                }
+              >
+                <Input className={'small'} />
+              </Field>
+            </FieldGroup>
+
+            <FieldGroup>
+              <Field label={'Terminating Conditions'}>
+                <input type={'text'} />
+              </Field>
+            </FieldGroup>
+
+            <FieldGroup label={'Rounding rules'}>
+              <Field>
+                <Input className={'small'} />
+              </Field>
+              <Field>
+                <Input className={'small'} />
+              </Field>
+            </FieldGroup>
+          </div>
+          <div>
+            <input type={'submit'} />
+          </div>
+        </Header>
+      </form>
       <Main></Main>
     </div>
   );
