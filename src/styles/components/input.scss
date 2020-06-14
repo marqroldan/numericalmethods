@@ -1,5 +1,7 @@
 input {
   @extend %input-fontStyle;
+  @extend %border-box;
+
   background: #242424;
   border: 0;
   outline: 0;
@@ -7,7 +9,4 @@ input {
   padding: 13px;
   display: inline-block;
   width: 100%;
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
 }
