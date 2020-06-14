@@ -31,7 +31,7 @@ export default class Options extends React.PureComponent<Props, State> {
   updateVisual = () => {
     if (Array.isArray(this.props.options)) {
       if (!this.state.selectedValue && this.props.options[0].value) {
-        this.setState({ selectedValue: this.props.options[0].value });
+        this.selectItem(this.props.options[0])();
       }
     }
   };
