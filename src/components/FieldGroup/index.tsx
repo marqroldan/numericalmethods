@@ -1,4 +1,4 @@
-import 'styles.scss';
+import './styles.scss';
 import React from 'react';
 
 export default class FieldGroup extends React.PureComponent {
