@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default class Text extends React.PureComponent {
+export default class Text extends React.PureComponent<React.HTMLAttributes<HTMLDivElement>> {
     render() {
         return (
-            <span>
+            <span className={this.props.className}>
                 {this.props.children}
             </span>
         );
