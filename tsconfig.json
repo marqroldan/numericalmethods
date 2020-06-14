@@ -24,7 +24,8 @@
       "@Components/*": ["components/*"],
       "@Methods/*": ["methods/*"],
       "@Methods": ["methods/index.ts"],
-      "@Utils/*": ["utils/*"]
+      "@Utils/*": ["utils/*"],
+      "@Utils": ["utils/index.ts"]
     },
     "lib": [
       "es2015",
