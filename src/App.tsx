@@ -20,6 +20,7 @@ export default class App extends React.PureComponent {
   formRef = React.createRef<HTMLFormElement>();
 
   state = {
+    method: '',
     smallestNumber: 4,
     largestNumber: 5,
     rr_smallestNumber: 5,
@@ -146,6 +147,7 @@ export default class App extends React.PureComponent {
             </div>
             <div>
               <ButtonDropdown
+                value={this.state.method}
                 onClick={this.formSubmit}
                 onChangeValue={this.valueChange('method')}
                 options={MethodsList}

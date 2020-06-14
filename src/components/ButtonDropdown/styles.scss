@@ -5,6 +5,10 @@
   border-radius: 10px;
   display: flex;
 
+  &Container {
+    position: relative;
+  }
+
   &__methodName {
     color: #fff;
     min-width: 164px;
@@ -43,6 +47,30 @@
         rgba(255, 255, 255, 0) 60%,
         rgba(255, 255, 255, 0) 100%
       );
+    }
+  }
+
+  &List {
+    border-radius: 10px;
+    padding: 10px;
+    background: #1ead82;
+
+    &Container {
+      padding-top: 10px;
+      position: absolute;
+      right: 0;
+      left: 0;
+    }
+
+    &__item {
+      margin: 0 -10px;
+      padding: 5px 15px;
+      font-weight: 500;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
     }
   }
 }
