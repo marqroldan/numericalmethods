@@ -1,19 +1,19 @@
 import './styles.scss';
 import React from 'react';
 
+interface IOptions {
+  label: string | number;
+  value: string | number;
+}
+
 interface Props {
-  options: {
-    [key: string]: any;
-  }[];
+  options: IOptions[];
   selectedValue: string | number;
   onChange: Function;
 }
 
 interface State {
   expanded: boolean;
-  selectedItem: {
-    [key: string]: any;
-  };
   selectedValue: string | number;
 }
 
@@ -25,13 +25,20 @@ const unknownObj = {
 export default class Options extends React.PureComponent<Props, State> {
   state = {
     expanded: false,
-    selectedItem: { ...unknownObj },
     selectedValue: '',
   };
 
-  updateVisual = () => {};
+  updateVisual = () => {
+    if (Array.isArray(this.props.options)) {
+      if (!this.state.selectedValue && this.props.options[0].value) {
+        this.setState({ selectedValue: this.props.options[0].value });
+      }
+    }
+  };
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.updateVisual();
+  }
 
   toggle = () => {
     this.setState((state) => ({
@@ -39,23 +46,23 @@ export default class Options extends React.PureComponent<Props, State> {
     }));
   };
 
-  selectItem = (value) => () => {
+  selectItem = (item: IOptions) => () => {
     this.setState(
       {
-        selectedValue: value,
+        selectedValue: item.value,
       },
       () => {
         if (this.props.onChange && typeof this.props.onChange === 'function') {
-          this.props.onChange(value);
+          this.props.onChange(item.value);
         }
       }
     );
   };
 
-  renderItem = (item, index) => {
+  renderItem = (item: IOptions, index: number) => {
     return (
       <div
-        onClick={this.selectItem(item.value)}
+        onClick={this.selectItem(item)}
         className={
           item.value === this.state.selectedValue
             ? 'Options__item Options__item--selected'
