@@ -9,7 +9,7 @@ interface IOptions {
 interface Props {
   options: IOptions[];
   value: string | number;
-  onChange: Function;
+  onChangeValue: Function;
 }
 
 interface State {

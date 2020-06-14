@@ -74,7 +74,7 @@ export default class App extends React.PureComponent {
                   <Options
                     options={mathOperatorsArr}
                     value={this.state.selectedOperator}
-                    onChange={this.valueChange('selectedOperator')}
+                    onChangeValue={this.valueChange('selectedOperator')}
                   />
                   <Input className={'options-left'} />
                 </Field>
