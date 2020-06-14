@@ -14,6 +14,8 @@ import FieldGroup from '@Components/FieldGroup';
 import Options from '@Components/Options';
 import { mathOperatorsArr } from '@Utils/math';
 
+const MethodsList = Object.keys(NumericalMethods);
+
 export default class App extends React.PureComponent {
   formRef = React.createRef<HTMLFormElement>();
 
@@ -36,6 +38,10 @@ export default class App extends React.PureComponent {
     this.setState({
       [target]: value,
     });
+  };
+
+  formSubmit = () => {
+    console.log('Form submitted');
   };
 
   render() {
@@ -139,7 +145,11 @@ export default class App extends React.PureComponent {
               </FieldGroup>
             </div>
             <div>
-              <input type={'submit'} />
+              <ButtonDropdown
+                onClick={this.formSubmit}
+                onChangeValue={this.valueChange('method')}
+                options={MethodsList}
+              />
             </div>
           </form>
         </Header>
