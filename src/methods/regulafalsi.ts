@@ -1,44 +1,30 @@
-
-/*
-Regula-Falsi
-
-Iterative formula
-Terminating condition
- => {
-  absoluteError < x
-
-  what is absoluteError?
-  
-
- }
-
-----
-
-const answer = firstVal - (func(firstVal) * ((firstVal - zerothVal)/(func(firstVal) - func(zerothVal)))
-
-*/
-
-import NumericalMethod, {IterationValue} from './index';
+import NumericalMethod, { IterationValue } from './NumericalMethod';
 
 export default class RegulaFalsi extends NumericalMethod {
-    constructor() {
-        super();
-        this.rule = (resObj: IterationValue) => {
-            this.maxSubtractor = this.largestNumber;
-            this.minSubtractor = this.smallestNumber;
-        
-            if (resObj.f_derivedNumber > 0) {
-              this.maxSubtractor = this.largestNumber;
-              this.largestNumber = resObj.derivedNumber;
-            } else {
-              this.minSubtractor = this.smallestNumber;
-              this.smallestNumber = resObj.derivedNumber;
-            }
-        };
-        this.formula = () => {
-            return this.smallestNumber - (this.polynomialFunction(this.smallestNumber) * ((this.smallestNumber - this.largestNumber)/(this.polynomialFunction(this.smallestNumber) - this.polynomialFunction(this.largestNumber))));
-        }
-    }
+  constructor() {
+    super();
+    this.rule = (resObj: IterationValue) => {
+      this.maxSubtractor = this.largestNumber;
+      this.minSubtractor = this.smallestNumber;
+
+      if (resObj.f_derivedNumber > 0) {
+        this.maxSubtractor = this.largestNumber;
+        this.largestNumber = resObj.derivedNumber;
+      } else {
+        this.minSubtractor = this.smallestNumber;
+        this.smallestNumber = resObj.derivedNumber;
+      }
+    };
+    this.formula = () => {
+      return (
+        this.smallestNumber -
+        this.polynomialFunction(this.smallestNumber) *
+          ((this.smallestNumber - this.largestNumber) /
+            (this.polynomialFunction(this.smallestNumber) -
+              this.polynomialFunction(this.largestNumber)))
+      );
+    };
+  }
 }
 
 /*
@@ -152,7 +138,6 @@ export const example2 = () => {
         }
 
 
-
         if (tabulatedValues[startXValue] > 0) {
             if (tabulatedValues[lastLeftValue] < 0) {
                 foundPositiveAndNegative = true;
@@ -202,11 +187,6 @@ export const example2 = () => {
     //get 1 and -1
     //tries: 3
     //if 0 > -1; go to 1 + 1
-
-
-
-
-
 
 
 }
