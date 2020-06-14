@@ -2,7 +2,7 @@ import '@Styles/main.scss';
 
 import React from 'react';
 
-import NumericalMethods from '@Methods';
+import NumericalMethods, { NumericalMethod, IterationValue } from '@Methods';
 
 import Header from '@Components/Header';
 import Main from '@Components/Main';
@@ -50,7 +50,7 @@ export default class App extends React.PureComponent<{}, State> {
   };
 
   formSubmit = () => {
-    const method = new NumericalMethods[this.state.method]();
+    const method: NumericalMethod = new NumericalMethods[this.state.method]();
 
     method.coefficients = this.state.coefficients
       .split(' ')
@@ -61,7 +61,7 @@ export default class App extends React.PureComponent<{}, State> {
       smallestNumber: this.state.rr_smallestNumber,
       largestNumber: this.state.rr_largestNumber,
       derivedNumber: this.state.rr_derivedNumber,
-    };
+    } as IterationValue;
     method.process(this.state.smallestNumber, this.state.largestNumber);
 
     console.log('Form submitted');
