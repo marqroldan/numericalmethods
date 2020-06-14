@@ -1,0 +1,10 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  &__labelHolder {
+    margin-left: 8px;
+    margin-bottom: 4px;
+  }
+}
