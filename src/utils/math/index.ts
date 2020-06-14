@@ -37,6 +37,7 @@ export const mathOperatorsArr = [
     label: '<=',
     value: 'lte',
   },
+  /*
   {
     label: '>',
     value: 'gt',
@@ -45,6 +46,7 @@ export const mathOperatorsArr = [
     label: '>=',
     value: 'gte',
   },
+  */
 ];
 
 export const getSignificantDigits = (value: number) => {
