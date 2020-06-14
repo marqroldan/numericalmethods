@@ -36,7 +36,8 @@ export default class Input extends React.PureComponent<ClassProps> {
             .split(' ')
             .map(
               (classItem) => `${ComponentName}${capitalizedType}__${classItem}`
-            ),
+            )
+            .join(' '),
         });
       } else {
         if (this.state.className !== ComponentName) {
