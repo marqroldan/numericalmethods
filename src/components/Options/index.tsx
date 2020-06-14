@@ -8,13 +8,12 @@ interface IOptions {
 
 interface Props {
   options: IOptions[];
-  selectedValue: string | number;
+  value: string | number;
   onChange: Function;
 }
 
 interface State {
   expanded: boolean;
-  selectedValue: string | number;
 }
 
 const unknownObj = {
@@ -25,12 +24,11 @@ const unknownObj = {
 export default class Options extends React.PureComponent<Props, State> {
   state = {
     expanded: false,
-    selectedValue: '',
   };
 
   updateVisual = () => {
     if (Array.isArray(this.props.options)) {
-      if (!this.state.selectedValue && this.props.options[0].value) {
+      if (!this.props.value && this.props.options[0].value) {
         this.selectItem(this.props.options[0])();
       }
     }
@@ -47,16 +45,9 @@ export default class Options extends React.PureComponent<Props, State> {
   };
 
   selectItem = (item: IOptions) => () => {
-    this.setState(
-      {
-        selectedValue: item.value,
-      },
-      () => {
-        if (this.props.onChange && typeof this.props.onChange === 'function') {
-          this.props.onChange(item.value);
-        }
-      }
-    );
+    if (this.props.onChange && typeof this.props.onChange === 'function') {
+      this.props.onChange(item.value);
+    }
   };
 
   renderItem = (item: IOptions, index: number) => {
@@ -64,7 +55,7 @@ export default class Options extends React.PureComponent<Props, State> {
       <div
         onClick={this.selectItem(item)}
         className={
-          item.value === this.state.selectedValue
+          item.value === this.props.value
             ? 'Options__item Options__item--selected'
             : 'Options__item'
         }
@@ -81,9 +72,8 @@ export default class Options extends React.PureComponent<Props, State> {
       : 'Options';
 
     const selectedItem =
-      this.props.options.find(
-        (option) => option.value === this.state.selectedValue
-      ) || unknownObj;
+      this.props.options.find((option) => option.value === this.props.value) ||
+      unknownObj;
     return (
       <div className={className} onClick={this.toggle}>
         {this.state.expanded

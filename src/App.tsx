@@ -73,7 +73,7 @@ export default class App extends React.PureComponent {
                 <Field label={'Terminating Conditions'}>
                   <Options
                     options={mathOperatorsArr}
-                    selectedValue={this.state.selectedOperator}
+                    value={this.state.selectedOperator}
                     onChange={this.valueChange('selectedOperator')}
                   />
                   <Input className={'options-left'} />
