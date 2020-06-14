@@ -9,6 +9,7 @@ import Main from '@Components/Main';
 import Field from '@Components/Field';
 import Input from '@Components/Input';
 import ButtonDropdown from '@Components/ButtonDropdown';
+import PolynomialText from '@Components/PolynomialText';
 
 import FieldGroup from '@Components/FieldGroup';
 import Options from '@Components/Options';
@@ -20,6 +21,7 @@ export default class App extends React.PureComponent {
   formRef = React.createRef<HTMLFormElement>();
 
   state = {
+    coefficients: '',
     method: '',
     smallestNumber: 4,
     largestNumber: 5,
@@ -54,8 +56,8 @@ export default class App extends React.PureComponent {
               <FieldGroup>
                 <Field label={'Coefficients'}>
                   <Input
-                    value={this.state.smallestNumber}
-                    onChangeValue={this.valueChange('smallestNumber')}
+                    value={this.state.coefficients}
+                    onChangeValue={this.valueChange('coefficients')}
                   />
                 </Field>
               </FieldGroup>
@@ -143,6 +145,9 @@ export default class App extends React.PureComponent {
                     }
                   />
                 </Field>
+              </FieldGroup>
+              <FieldGroup label={'Polynomial Function'}>
+                <PolynomialText value={this.state.coefficients} />
               </FieldGroup>
             </div>
             <div>
