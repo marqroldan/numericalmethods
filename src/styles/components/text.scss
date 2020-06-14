@@ -1,9 +1,17 @@
 span {
-    &.label {
-        color: white;
-        font-size: 10px;
-        line-height: 10px;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-    }
+  &.label {
+    color: white;
+    font-size: 10px;
+    line-height: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  &.sublabel {
+    opacity: 0.5;
+    color: white;
+    font-size: 10px;
+    line-height: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
 }

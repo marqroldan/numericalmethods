@@ -1,9 +1,11 @@
 import './styles.scss';
 import React from 'react';
+import Text from '@Components/Text';
 
 interface Props {
   type?: string;
   className?: string;
+  sublabel?: string | Function | JSX.Element;
 }
 
 const ComponentName = 'Input';
@@ -62,8 +64,20 @@ export default class Input extends React.PureComponent<ClassProps> {
   }
 
   render() {
+    const { sublabel } = this.props;
     return (
-      <input type={this.state.type} className={this.state.className} required />
+      <div className={'Input'}>
+        <input
+          type={this.state.type}
+          className={this.state.className}
+          required
+        />
+        <div className={'Input__sublabel'}>
+          <Text className={'sublabel'}>
+            {typeof sublabel === 'function' ? sublabel() : sublabel}
+          </Text>
+        </div>
+      </div>
     );
   }
 }

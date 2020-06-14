@@ -1,10 +1,23 @@
 .Input {
+  position: relative;
+
+  &__sublabel {
+    position: absolute;
+    bottom: 3px;
+    left: 7px;
+  }
+
   &Text {
     &__test {
       color: green;
     }
+
     &__small {
       width: 65px;
+    }
+
+    &__center {
+      text-align: center;
     }
   }
 }
