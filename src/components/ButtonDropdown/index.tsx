@@ -1,8 +1,16 @@
 import './styles.scss';
 import React from 'react';
+import DropdownArrow from '@Assets/svg/dropdownArrow';
 
 export default class ButtonDropdown extends React.PureComponent {
   render() {
-    return null;
+    return (
+      <div className={'ButtonDropdown'}>
+        <div className={'ButtonDropdown__methodName'}>Test</div>
+        <div className={'ButtonDropdown__arrow'}>
+          <DropdownArrow />
+        </div>
+      </div>
+    );
   }
 }
