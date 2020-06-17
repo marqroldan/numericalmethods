@@ -1,7 +1,13 @@
+import { ERROR_CONSTANTS } from './constants';
 import * as MathUtils from '@Utils/math';
 
-export interface IterationValue {
-  [key: string]: number;
+export interface IterationError {
+  iterationNumber: number;
+  error: string;
+}
+
+export interface IterationResult {
+  [key: string]: any;
   smallestNumber: number;
   largestNumber: number;
   derivedNumber: number;
@@ -9,6 +15,13 @@ export interface IterationValue {
   f_largestNumber: number;
   f_derivedNumber: number;
 }
+
+export interface IterationValue extends IterationResult {
+  [key: string]: any;
+  iterationNumber: number;
+}
+
+export type IterationObject = IterationValue | IterationError | IterationResult;
 
 export default class NumericalMethod {
   private _terminatingCondition: keyof typeof MathUtils.mathOperators = 'lte';
@@ -31,7 +44,7 @@ export default class NumericalMethod {
       MathUtils.mathOperators[this._terminatingCondition];
   }
 
-  protected _roundingRules: IterationValue = {
+  protected _roundingRules: IterationResult = {
     smallestNumber: 4,
     largestNumber: 4,
     derivedNumber: 4,
@@ -44,7 +57,7 @@ export default class NumericalMethod {
     return this._roundingRules;
   }
 
-  set roundingRules(value: number | IterationValue) {
+  set roundingRules(value: number | IterationObject) {
     if (typeof value === 'number') {
       Object.keys(this._roundingRules).map((rrKey) => {
         this._roundingRules[rrKey] = value;
@@ -99,7 +112,7 @@ export default class NumericalMethod {
   protected smallestNumber: number = 0;
   protected largestNumber: number = 0;
 
-  protected rule: Function = (resObj: IterationValue) => {
+  protected rule: Function = (resObj: IterationResult) => {
     this.maxSubtractor = this.largestNumber;
     this.minSubtractor = this.smallestNumber;
 
@@ -112,7 +125,7 @@ export default class NumericalMethod {
     }
   };
 
-  protected _iterations: IterationValue[] = [];
+  protected _iterations: IterationObject[] = [];
 
   get iterations() {
     return this._iterations;
@@ -181,13 +194,15 @@ export default class NumericalMethod {
       );
 
       if (!isFinite(derivedNumber)) {
-        this._errorList.push(
-          `Derived number is non-finite at ${this._iterations.length + 1}`
-        );
+        this._iterations.push({
+          iterationNumber: this._iterations.length,
+          error: ERROR_CONSTANTS.NONFINITE,
+        });
         break;
       }
 
-      const resObj: IterationValue = {
+      const resObj: IterationObject = {
+        iterationNumber: this._iterations.length,
         derivedNumber,
         smallestNumber: parseFloat(
           this.smallestNumber.toPrecision(derivedNumberDigits)
@@ -204,11 +219,14 @@ export default class NumericalMethod {
       this.derivedNumber = derivedNumber;
       this.rule(resObj);
       this.limitCounter++;
-    }
 
-    if (this._errorList.length) {
-      console.error(this._errorList);
+      if (this.limitCounter > this.limit) {
+        this._iterations.push({
+          iterationNumber: this._iterations.length + 1,
+          error: ERROR_CONSTANTS.LIMITREACHED,
+        });
+        break;
+      }
     }
-    console.log('Iterations: ', this._iterations.length);
   };
 }
