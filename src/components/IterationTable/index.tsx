@@ -13,7 +13,7 @@ export default class IterationTable extends React.PureComponent<
   render() {
     const data = this.props.data || [];
     return (
-      <>
+      <div className={'IterationTable'}>
         <div className={'IterationRow IterationRow--header'}>
           <div className={'IterationRow__col'}>Iteration Number</div>
           <div className={'IterationRow__col'}>x0</div>
@@ -31,7 +31,7 @@ export default class IterationTable extends React.PureComponent<
             </IterationRow>
           );
         })}
-      </>
+      </div>
     );
   }
 }
