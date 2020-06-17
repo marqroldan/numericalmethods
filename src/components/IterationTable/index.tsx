@@ -14,14 +14,14 @@ export default class IterationTable extends React.PureComponent<
     const data = this.props.data || [];
     return (
       <>
-        <div className={'IterationRowHeader'}>
-          <div className={'IterationRow__col'}></div>
-          <div className={'IterationRow__col'}></div>
-          <div className={'IterationRow__col'}></div>
-          <div className={'IterationRow__col'}></div>
-          <div className={'IterationRow__col'}></div>
-          <div className={'IterationRow__col'}></div>
-          <div className={'IterationRow__col'}></div>
+        <div className={'IterationRow IterationRow--header'}>
+          <div className={'IterationRow__col'}>Iteration Number</div>
+          <div className={'IterationRow__col'}>x0</div>
+          <div className={'IterationRow__col'}>x2</div>
+          <div className={'IterationRow__col'}>x1</div>
+          <div className={'IterationRow__col'}>f(x0)</div>
+          <div className={'IterationRow__col'}>f(x2)</div>
+          <div className={'IterationRow__col'}>f(x1)</div>
         </div>
 
         {data.map((item, index) => {
