@@ -1,0 +1,4 @@
+export const ERROR_CONSTANTS = {
+  NONFINITE: 'NONFINITE',
+  LIMITREACHED: 'LIMITREACHED',
+} as const;
