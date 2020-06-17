@@ -186,7 +186,6 @@ export default class App extends React.PureComponent<{}, State> {
           </form>
         </Header>
         <Main>
-          testy {JSON.stringify(this.state)}
           <div>
             <IterationTable data={this.state.iterations} />
           </div>
