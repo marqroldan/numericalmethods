@@ -14,16 +14,6 @@ export default class IterationRow extends React.PureComponent<
       return <div className={'IterationRowError'}>error</div>;
     } else {
       return (
-          <>
-          <div className={'IterationRowHeader'}>
-            <div className={'IterationRow__col'}></div>
-            <div className={'IterationRow__col'}></div>
-            <div className={'IterationRow__col'}></div>
-            <div className={'IterationRow__col'}></div>
-            <div className={'IterationRow__col'}></div>
-            <div className={'IterationRow__col'}></div>
-            <div className={'IterationRow__col'}></div>
-          </div>
         <div className={'IterationRow'}>
           <div className={'IterationRow__col'}></div>
           <div className={'IterationRow__col'}></div>
@@ -33,7 +23,6 @@ export default class IterationRow extends React.PureComponent<
           <div className={'IterationRow__col'}></div>
           <div className={'IterationRow__col'}></div>
         </div>
-        </>
       );
     }
   }

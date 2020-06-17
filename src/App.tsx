@@ -10,7 +10,7 @@ import Field from '@Components/Field';
 import Input from '@Components/Input';
 import ButtonDropdown from '@Components/ButtonDropdown';
 import PolynomialText from '@Components/PolynomialText';
-import IterationRow from '@Components/IterationRow';
+import IterationTable from '@Components/IterationTable';
 
 import FieldGroup from '@Components/FieldGroup';
 import Options from '@Components/Options';
@@ -188,13 +188,7 @@ export default class App extends React.PureComponent<{}, State> {
         <Main>
           testy {JSON.stringify(this.state)}
           <div>
-            {this.state.iterations.map((item, index) => {
-              return (
-                <IterationRow key={`${index}__`} {...item}>
-                  {JSON.stringify(item)}
-                </IterationRow>
-              );
-            })}
+            <IterationTable data={this.state.iterations} />
           </div>
         </Main>
       </div>
