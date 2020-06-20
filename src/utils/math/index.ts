@@ -68,7 +68,7 @@ export const coefficientsFactory = (
 
 export const evenReducer = (value: number) => {
   const values = [];
-  let startValue = value > 2 ? (value % 2 ? value - 1 : value) : value;
+  let startValue = value;
   while (startValue >= 0) {
     values.push(startValue);
     startValue = startValue - 2;
@@ -103,6 +103,8 @@ export const zeroReducer = (coefficients: MathInterfaces.ICoefficients) => {
 export const countPossibleRoots = (
   coeff: MathInterfaces.ICoefficients
 ): MathInterfaces.IPossibleRoots[] => {
+  console.log('==============================================');
+  console.log('Assessing coefficients: ', coeff);
   const { zeroes, filteredCoefficients } = zeroReducer(coeff);
 
   const totalPossibleRoots = filteredCoefficients.length - 1;
@@ -113,7 +115,6 @@ export const countPossibleRoots = (
   );
   const maxPossiblePositive = maxPossibleCounter(forPositiveIteration);
   const possiblePositive = evenReducer(maxPossiblePositive);
-  console.log('Number of positive', maxPossiblePositive, possiblePositive);
 
   const forNegativeIteration = filteredCoefficients
     .map(
@@ -123,9 +124,13 @@ export const countPossibleRoots = (
     .filter((coefficient) => coefficient != 0);
   const maxPossibleNegative = maxPossibleCounter(forNegativeIteration);
   const possibleNegative = evenReducer(maxPossibleNegative);
-  console.log('Number of negative', possibleNegative, possibleNegative);
 
-  const possibleComplex = evenReducer(filteredCoefficients.length - 1);
+  const possibleComplex = evenReducer(
+    totalPossibleRoots % 2 ? totalPossibleRoots - 1 : totalPossibleRoots
+  );
+  console.log('!!!!!!!!!!!!!!!!!');
+  console.log('Number of positive', maxPossiblePositive, possiblePositive);
+  console.log('Number of negative', maxPossibleNegative, possibleNegative);
   console.log('Number of complex roots', possibleComplex);
 
   const possibleCombinations: MathInterfaces.IPossibleRoots[] = [];
@@ -147,5 +152,6 @@ export const countPossibleRoots = (
   });
 
   console.log('Possible combinations of roots', possibleCombinations);
+  console.log('==============================================');
   return possibleCombinations;
 };
