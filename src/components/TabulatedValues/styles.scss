@@ -1,0 +1,16 @@
+.TabulatedValues {
+  margin-bottom: 15px;
+
+  &Ranges {
+    display: flex;
+    margin-top: 7px;
+
+    & * {
+      flex: 1;
+
+      & input {
+        width: 100%;
+      }
+    }
+  }
+}

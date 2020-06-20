@@ -10,14 +10,15 @@ import NumericalMethods, {
 import Header from '@Components/Header';
 import Main from '@Components/Main';
 import Sidebar from '@Components/Sidebar';
+import FieldGroup from '@Components/FieldGroup';
 import Field from '@Components/Field';
 import Input from '@Components/Input';
 import ButtonDropdown from '@Components/ButtonDropdown';
 import PolynomialText from '@Components/PolynomialText';
 import IterationTable from '@Components/IterationTable';
 import PossibleRoots from '@Components/PossibleRoots';
+import TabulatedValues from '@Components/TabulatedValues';
 
-import FieldGroup from '@Components/FieldGroup';
 import Options from '@Components/Options';
 import { mathOperators, mathOperatorsArr } from '@Utils/math';
 
@@ -247,6 +248,7 @@ export default class App extends React.PureComponent<{}, State> {
           <Sidebar>
             <PolynomialText value={this.state.coefficients} />
             <PossibleRoots coefficients={this.state.coefficients} />
+            <TabulatedValues coefficients={this.state.coefficients} />
           </Sidebar>
           <IterationTable
             data={this.state.iterations}
