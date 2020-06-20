@@ -14,15 +14,11 @@ import Input from '@Components/Input';
 import ButtonDropdown from '@Components/ButtonDropdown';
 import PolynomialText from '@Components/PolynomialText';
 import IterationTable from '@Components/IterationTable';
+import PossibleRoots from '@Components/PossibleRoots';
 
 import FieldGroup from '@Components/FieldGroup';
 import Options from '@Components/Options';
-import {
-  mathOperators,
-  mathOperatorsArr,
-  countPossibleRoots,
-  coefficientsFactory,
-} from '@Utils/math';
+import { mathOperators, mathOperatorsArr } from '@Utils/math';
 
 const MethodsList = Object.keys(NumericalMethods);
 
@@ -76,8 +72,6 @@ export default class App extends React.PureComponent<{}, State> {
   };
 
   formSubmit = () => {
-    countPossibleRoots(coefficientsFactory(this.state.coefficients));
-    return;
     const method: NumericalMethod = new NumericalMethods[this.state.method]();
 
     method.coefficients = this.state.coefficients;
@@ -252,6 +246,7 @@ export default class App extends React.PureComponent<{}, State> {
           </form>
         </Header>
         <Main>
+          <PossibleRoots coefficients={this.state.coefficients} />
           <IterationTable
             data={this.state.iterations}
             settings={this.state.settings}
