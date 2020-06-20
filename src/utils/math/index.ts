@@ -66,58 +66,77 @@ export const coefficientsFactory = (
     }, []);
 };
 
+export const evenReducer = (value: number) => {
+  const values = [];
+  let startValue = value > 2 ? (value % 2 ? value - 1 : value) : value;
+  while (startValue >= 0) {
+    values.push(startValue);
+    startValue = startValue - 2;
+  }
+  return values;
+};
+
+export const maxPossibleCounter = (arr: number[]) => {
+  console.log('Evaluating: ', arr);
+  return arr.reduce(
+    (acc, val, index) =>
+      index !== 0 ? (arr[index - 1] > 0 != val > 0 ? acc + 1 : acc) : acc,
+    0
+  );
+};
+
+export const zeroReducer = (coefficients: MathInterfaces.ICoefficients) => {
+  let zeroes = 0;
+  let filteredCoefficients = coefficients.slice();
+
+  while (filteredCoefficients[filteredCoefficients.length - 1] == 0) {
+    zeroes = zeroes + 1;
+    filteredCoefficients.pop();
+  }
+
+  return {
+    zeroes,
+    filteredCoefficients,
+  };
+};
+
 export const countPossibleRoots = (
-  coefficients: MathInterfaces.ICoefficients
+  coeff: MathInterfaces.ICoefficients
 ): MathInterfaces.IPossibleRoots[] => {
-  const evenReducer = (value: number) => {
-    const values = [];
-    let startValue = value > 2 ? (value % 2 ? value - 1 : value) : value;
-    while (startValue >= 0) {
-      values.push(startValue);
-      startValue = startValue - 2;
-    }
-    return values;
-  };
+  const { zeroes, filteredCoefficients } = zeroReducer(coeff);
 
-  const maxPossibleCounter = (arr: number[]) => {
-    console.log('Evaluating: ', arr);
-    return arr.reduce(
-      (acc, val, index) =>
-        index !== 0 ? (arr[index - 1] > 0 != val > 0 ? acc + 1 : acc) : acc,
-      0
-    );
-  };
-
-  const totalPossibleRoots = coefficients.length - 1;
+  const totalPossibleRoots = filteredCoefficients.length - 1;
   console.log('Total possible roots', totalPossibleRoots);
 
-  const forPositiveIteration = coefficients.filter(
+  const forPositiveIteration = filteredCoefficients.filter(
     (coefficient) => coefficient != 0
   );
   const maxPossiblePositive = maxPossibleCounter(forPositiveIteration);
   const possiblePositive = evenReducer(maxPossiblePositive);
   console.log('Number of positive', maxPossiblePositive, possiblePositive);
 
-  const forNegativeIteration = coefficients
+  const forNegativeIteration = filteredCoefficients
     .map(
       (coefficient, index) =>
-        coefficient * Math.pow(-1, coefficients.length - index - 1)
+        coefficient * Math.pow(-1, filteredCoefficients.length - index - 1)
     )
     .filter((coefficient) => coefficient != 0);
   const maxPossibleNegative = maxPossibleCounter(forNegativeIteration);
   const possibleNegative = evenReducer(maxPossibleNegative);
   console.log('Number of negative', possibleNegative, possibleNegative);
 
-  const possibleComplex = evenReducer(coefficients.length - 1);
+  const possibleComplex = evenReducer(filteredCoefficients.length - 1);
   console.log('Number of complex roots', possibleComplex);
 
   const possibleCombinations: MathInterfaces.IPossibleRoots[] = [];
+  const initialPossibleRoots = { zero: zeroes };
 
   possibleComplex.map((cNum) => {
     possibleNegative.map((nNum) => {
       possiblePositive.map((pNum) => {
         if (cNum + nNum + pNum === totalPossibleRoots) {
           possibleCombinations.push({
+            ...initialPossibleRoots,
             complex: cNum,
             negative: nNum,
             positive: pNum,
