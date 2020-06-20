@@ -170,20 +170,20 @@ export default class NumericalMethod {
       errorList.push(`_coefficients is empty :: ${this._coefficients}`);
     }
 
-    if (smallN != null || !isFinite(smallN)) {
+    if (smallN == null || !isFinite(parseFloat(smallN.toString()))) {
       errorList.push(
         `Value not finite -> smallestNumber :: ${typeof smallN} => ${smallN}`
       );
     }
-    if (largeN != null || !isFinite(largeN)) {
+    if (largeN == null || !isFinite(parseFloat(largeN.toString()))) {
       errorList.push(
         `Value not finite -> largestNumber :: ${typeof largeN} => ${largeN}`
       );
     }
 
-    if (this.largestNumber === this.smallestNumber) {
+    if (largeN === smallN) {
       errorList.push(
-        `Largest and Smallest number is the same :: ${this.largestNumber}, ${this.smallestNumber}`
+        `Largest and Smallest number is the same :: ${smallN}, ${largeN}`
       );
     }
 
