@@ -15,7 +15,7 @@ export default class PossibleRoots extends React.Component<Props> {
 
     return (
       <div className={'PossibleRoots'}>
-        <Text className={'heading1'}>Possible Roots</Text>
+        <Text className={'heading3'}>Possible Roots</Text>
         {possibleRoots.map((roots) => {
           return (
             <div className={'PossibleRootsContainer'}>
