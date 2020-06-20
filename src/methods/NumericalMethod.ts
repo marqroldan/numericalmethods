@@ -137,21 +137,9 @@ export default class NumericalMethod {
   set coefficients(values: string | number[]) {
     const finalValue = Array.isArray(values) ? values.join(' ') : values;
     if (typeof finalValue === 'string') {
-      const _coeffRaw = finalValue
-        .split(' ')
-        .reverse()
-        .map((item) => parseFloat(item));
+      const coefficients = MathUtils.coefficientsFactory(finalValue);
 
-      //Test for bad values
-      const coefficients = _coeffRaw.filter((coeff) => isFinite(coeff));
-
-      if (coefficients.length !== _coeffRaw.length) {
-        const errorMes = 'Bad coefficients value';
-        this._errorList.push(`${errorMes}: `, coefficients.toString());
-        throw new Error(errorMes);
-      }
-
-      this._coefficients = coefficients;
+      this._coefficients = coefficients.reverse();
       this.polynomialFunction = MathUtils.polynomialFuncFactory(
         this._coefficients
       );
