@@ -27,6 +27,16 @@ export interface IterationValue extends IterationResult {
   iterationNumber: number;
 }
 
+export interface TerminatingConditions {
+  [key: string]: any;
+  terminatingCondition: keyof typeof MathUtils.mathOperators;
+  terminatingConditionValue: number;
+}
+
+export type MethodSettings =
+  | TerminatingConditions
+  | Omit<IterationResult, 'errorValues'>;
+
 export type IterationObject = IterationValue | IterationError | IterationResult;
 
 export default class NumericalMethod {
@@ -190,6 +200,18 @@ export default class NumericalMethod {
 
   get iterations() {
     return this._iterations;
+  }
+
+  get settings(): MethodSettings {
+    return {
+      ...this._roundingRules,
+      terminatingCondition: this._terminatingCondition,
+      terminatingConditionValue: this._terminatingConditionValue,
+    };
+  }
+
+  set settings(val: MethodSettings) {
+    return;
   }
 
   initialErrorChecker = (smallN: number | string, largeN: number | string) => {

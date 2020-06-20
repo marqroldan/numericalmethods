@@ -41,7 +41,7 @@ interface State {
   terminatingOperation: keyof typeof mathOperators;
   terminatingConditionValue: string;
   iterations: NumericalMethodTypes.IterationObject[];
-  settings: NumericalMethodTypes.IterationResult;
+  settings: NumericalMethodTypes.MethodSettings;
 }
 
 export default class App extends React.PureComponent<{}, State> {
@@ -98,7 +98,7 @@ export default class App extends React.PureComponent<{}, State> {
 
     this.setState({
       iterations: method.iterations,
-      settings: method.roundingRules as State['settings'],
+      settings: method.settings as State['settings'],
     });
   };
 

@@ -1,11 +1,11 @@
 import './styles.scss';
 import React from 'react';
-import { IterationObject, IterationResult } from '@Methods/NumericalMethod';
+import { IterationObject, MethodSettings } from '@Methods/NumericalMethod';
 import IterationRow from '@Components/IterationRow';
 
 interface Props {
   data: IterationObject[];
-  settings: IterationResult;
+  settings: MethodSettings;
 }
 
 export default class IterationTable extends React.PureComponent<Props> {
