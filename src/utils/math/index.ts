@@ -1,18 +1,5 @@
 import * as MathInterfaces from './interfaces';
 
-export const countPossibleRoots = (
-  coefficients: MathInterfaces.ICoefficients
-): MathInterfaces.IPossibleRoots => {
-  return coefficients.reduce((acc, value, index) => {
-    if ((index !== 0 || index !== coefficients.length - 1) && value !== 0) {
-      acc.positive += Number(value > 0);
-      acc.negative += 0;
-      acc.complex += 0;
-    }
-    return acc;
-  }, {} as MathInterfaces.IPossibleRoots);
-};
-
 export const polynomialFuncFactory = (
   coefficients: MathInterfaces.ICoefficients
 ) => (xValue: number) => {
@@ -61,7 +48,9 @@ export const round = (value: number | string, dp = 0) => {
   return Math.round((parseFloat(value) + Number.EPSILON) * scaler) / scaler;
 };
 
-export const coefficientsFactory = (value: string): number[] => {
+export const coefficientsFactory = (
+  value: string
+): MathInterfaces.ICoefficients => {
   return value
     .toString()
     .trim()
@@ -75,4 +64,68 @@ export const coefficientsFactory = (value: string): number[] => {
       }
       return acc;
     }, []);
+};
+
+export const countPossibleRoots = (
+  coefficients: MathInterfaces.ICoefficients
+): MathInterfaces.IPossibleRoots => {
+  const forPositiveIteration = coefficients.filter(
+    (coefficient) => coefficient != 0
+  );
+
+  console.log('coefficients huh', coefficients);
+  const possiblePositive = forPositiveIteration.reduce((acc, val, index) => {
+    if (index !== 0) {
+      const lastSign = coefficients[index - 1] > 0;
+      const currentSign = val > 0;
+
+      console.log('comparing values', coefficients[index - 1], val);
+
+      if (lastSign != currentSign) {
+        acc = acc + 1;
+      }
+    }
+    return acc;
+  }, 0);
+
+  console.log('Number of positive', possiblePositive);
+  console.log('-----------');
+
+  
+  const forPositiveIteration = coefficients.filter(
+    (coefficient) => coefficient != 0
+  );
+
+
+  const possibleNegative = filteredCoefficients
+    .reverse()
+    .reduce((acc, val, index) => {
+      if (index !== 0) {
+        const multiplier = coefficients.length - (index + 1);
+
+        const lastSign = coefficients[index - 1] * (-1 ^ (multiplier - 1)) > 0;
+        const currentSign = val * (-1 ^ multiplier) > 0;
+
+        console.log('comparing values', coefficients[index - 1], val);
+
+        if (lastSign != currentSign) {
+          acc = acc + 1;
+        }
+      }
+      return acc;
+    }, 0);
+
+  console.log('Number of positive', possibleNegative);
+
+  /*
+
+  return coefficients.reduce((acc, value, index) => {
+    if ((index !== 0 || index !== coefficients.length - 1) && value !== 0) {
+      acc.positive += Number(value > 0);
+      acc.negative += 0;
+      acc.complex += 0;
+    }
+    return acc;
+  }, {} as MathInterfaces.IPossibleRoots);
+  */
 };

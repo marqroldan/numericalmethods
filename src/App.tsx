@@ -17,7 +17,12 @@ import IterationTable from '@Components/IterationTable';
 
 import FieldGroup from '@Components/FieldGroup';
 import Options from '@Components/Options';
-import { mathOperators, mathOperatorsArr } from '@Utils/math';
+import {
+  mathOperators,
+  mathOperatorsArr,
+  countPossibleRoots,
+  coefficientsFactory,
+} from '@Utils/math';
 
 const MethodsList = Object.keys(NumericalMethods);
 
@@ -71,6 +76,8 @@ export default class App extends React.PureComponent<{}, State> {
   };
 
   formSubmit = () => {
+    //countPossibleRoots(coefficientsFactory(this.state.coefficients));
+    //return;
     const method: NumericalMethod = new NumericalMethods[this.state.method]();
 
     method.coefficients = this.state.coefficients;
