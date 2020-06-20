@@ -1,11 +1,12 @@
 export interface ITabulatedValues {
-    [key: string]: number,
+  [key: string]: number;
 }
 
 export interface IPossibleRoots {
-    positive: number,
-    negative: number,
-    complex: number,
+  positive: number;
+  negative: number;
+  complex: number;
+  zero?: number;
 }
 
 export type ICoefficients = number[];

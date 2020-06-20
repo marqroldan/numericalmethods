@@ -68,7 +68,7 @@ export const coefficientsFactory = (
 
 export const countPossibleRoots = (
   coefficients: MathInterfaces.ICoefficients
-): MathInterfaces.IPossibleRoots => {
+): MathInterfaces.IPossibleRoots[] => {
   const evenReducer = (value: number) => {
     const values = [];
     let startValue = value > 2 ? (value % 2 ? value - 1 : value) : value;
@@ -111,7 +111,7 @@ export const countPossibleRoots = (
   const possibleComplex = evenReducer(coefficients.length - 1);
   console.log('Number of complex roots', possibleComplex);
 
-  const possibleCombinations = [];
+  const possibleCombinations: MathInterfaces.IPossibleRoots[] = [];
 
   possibleComplex.map((cNum) => {
     possibleNegative.map((nNum) => {
@@ -121,23 +121,12 @@ export const countPossibleRoots = (
             complex: cNum,
             negative: nNum,
             positive: pNum,
-          });
+          } as MathInterfaces.IPossibleRoots);
         }
       });
     });
   });
 
   console.log('Possible combinations of roots', possibleCombinations);
-
-  /*
-
-  return coefficients.reduce((acc, value, index) => {
-    if ((index !== 0 || index !== coefficients.length - 1) && value !== 0) {
-      acc.positive += Number(value > 0);
-      acc.negative += 0;
-      acc.complex += 0;
-    }
-    return acc;
-  }, {} as MathInterfaces.IPossibleRoots);
-  */
+  return possibleCombinations;
 };
