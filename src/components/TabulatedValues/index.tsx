@@ -90,6 +90,13 @@ export default class TabulatedValues extends React.PureComponent<Props> {
     );
   };
 
+  componentDidUpdate(prevProps: Readonly<Props>) {
+    if (this.props.coefficients != prevProps.coefficients) {
+      clearTimeout(this.generatorTimeout);
+      this.generatorTimeout = setTimeout(this.generateValues, 1000);
+    }
+  }
+
   render() {
     return (
       <div className={'TabulatedValues'}>
@@ -113,7 +120,7 @@ export default class TabulatedValues extends React.PureComponent<Props> {
           </Field>
         </div>
         <br />
-        Check the console for complete tabulated values (
+        Check the console (F12) for complete tabulated values (
         {this.state.values.length})
         <div className={'TabulatedValues__rows'}>
           {this.state.possiblePair.map((item, index) => {
