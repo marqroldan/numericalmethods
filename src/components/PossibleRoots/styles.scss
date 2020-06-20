@@ -1,5 +1,5 @@
 .PossibleRoots {
-  margin: 0 10px 0 10px;
+  margin: 0 10px 15px 10px;
 
   &Container {
     display: flex;
@@ -7,7 +7,7 @@
     justify-content: space-around;
     flex-wrap: wrap;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 10px;
+    padding: 0 10px 10px 10px;
 
     &:last-child {
       border-bottom: 0px;

@@ -245,9 +245,7 @@ export default class App extends React.PureComponent<{}, State> {
         </Header>
         <Main>
           <Sidebar>
-            <FieldGroup label={'Polynomial Function'}>
-              <PolynomialText value={this.state.coefficients} />
-            </FieldGroup>
+            <PolynomialText value={this.state.coefficients} />
             <PossibleRoots coefficients={this.state.coefficients} />
           </Sidebar>
           <IterationTable

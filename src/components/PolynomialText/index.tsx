@@ -1,5 +1,7 @@
+import './styles.scss';
 import React from 'react';
 import { coefficientsFactory } from '@Utils/math';
+import Text from '@Components/Text';
 
 interface Props {
   value: string;
@@ -57,6 +59,13 @@ export default class PolynomialText extends React.PureComponent<Props> {
   }
 
   render() {
-    return this.state.polynomialString;
+    return (
+      <div className={'PolynomialText'}>
+        <Text className={'heading3'}>Polynomial Text</Text>
+        <div className={'PolynomialText__value'}>
+          {this.state.polynomialString}
+        </div>
+      </div>
+    );
   }
 }
