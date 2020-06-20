@@ -202,7 +202,7 @@ export default class NumericalMethod {
       }
 
       const resObj: IterationObject = {
-        iterationNumber: this._iterations.length,
+        iterationNumber: this._iterations.length + 1,
         derivedNumber,
         smallestNumber: parseFloat(
           this.smallestNumber.toPrecision(derivedNumberDigits)
