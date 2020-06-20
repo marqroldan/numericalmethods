@@ -10,10 +10,13 @@ export const polynomialFuncFactory = (
 
 export const mathOperators = {
   lt: (a: number, b: number) => a < b,
-  lte: (a: number, b: number) => a <= b,
+  lte: (a: number, b: number) => {
+    console.log('Comparing...', a, b);
+    return a <= b;
+  },
   gt: (a: number, b: number) => a > b,
   gte: (a: number, b: number) => a >= b,
-};
+} as { [key: string]: Function };
 
 export const mathOperatorsArr = [
   {

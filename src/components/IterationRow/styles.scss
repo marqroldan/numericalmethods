@@ -1,6 +1,6 @@
 .IterationRow {
   display: grid;
-  grid-template-columns: repeat(7, minmax(200px, 1fr));
+  grid-template-columns: repeat(8, minmax(200px, 1fr));
 
   &:nth-child(odd) {
     background-color: rgba(255, 255, 255, 0.05);

@@ -18,6 +18,7 @@ export default class IterationTable extends React.PureComponent<Props> {
           <div className={'IterationRow__col'}>x0</div>
           <div className={'IterationRow__col'}>x2</div>
           <div className={'IterationRow__col'}>x1</div>
+          <div className={'IterationRow__col'}>Absolute Error</div>
           <div className={'IterationRow__col'}>f(x0)</div>
           <div className={'IterationRow__col'}>f(x2)</div>
           <div className={'IterationRow__col'}>f(x1)</div>

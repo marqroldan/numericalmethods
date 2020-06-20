@@ -188,7 +188,6 @@ export default class NumericalMethod {
   };
 
   errorValuesGenerator = (): AbsoluteErrors => {
-    console.log('dammit', this.derivedNumber, this.maxSubtractor);
     return {
       largest: Math.abs(this.derivedNumber - this.maxSubtractor),
       smallest: Math.abs(this.derivedNumber - this.minSubtractor),
@@ -285,17 +284,19 @@ export default class NumericalMethod {
       ) &&
       */
     ) {
-      console.log(
-        this._iterations.length + 1,
-        'Comparing values',
-        this.derivedNumber,
-        this.minSubtractor,
-        Math.abs(this.derivedNumber - this.minSubtractor),
-        this.maxSubtractor,
-        Math.abs(this.derivedNumber - this.maxSubtractor),
-        this._terminatingConditionValue,
-        this.terminatingCondition
-      );
+      if (false) {
+        console.log(
+          this._iterations.length + 1,
+          'Comparing values',
+          this.derivedNumber,
+          this.minSubtractor,
+          Math.abs(this.derivedNumber - this.minSubtractor),
+          this.maxSubtractor,
+          Math.abs(this.derivedNumber - this.maxSubtractor),
+          this._terminatingConditionValue,
+          this.terminatingCondition
+        );
+      }
       let derivedNumber = MathUtils.round(
         this.formula(),
         this._roundingRules.derivedNumber
