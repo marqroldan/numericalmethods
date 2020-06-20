@@ -55,3 +55,8 @@ export const getSignificantDigits = (value: number) => {
   const numberOfDecimalPlaces = value.toString().split('.').pop()?.length;
   return actualSignificantDigit + numberOfDecimalPlaces;
 };
+
+export const round = (value: number | string, dp = 0) => {
+  const scaler = parseFloat('1' + '0'.repeat(dp));
+  return Math.round((parseFloat(value) + Number.EPSILON) * scaler) / scaler;
+};
