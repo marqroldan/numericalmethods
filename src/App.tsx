@@ -2,7 +2,10 @@ import '@Styles/main.scss';
 
 import React from 'react';
 
-import NumericalMethods, { NumericalMethod, IterationValue } from '@Methods';
+import NumericalMethods, {
+  NumericalMethod,
+  NumericalMethodTypes,
+} from '@Methods';
 
 import Header from '@Components/Header';
 import Main from '@Components/Main';
@@ -14,13 +17,23 @@ import IterationTable from '@Components/IterationTable';
 
 import FieldGroup from '@Components/FieldGroup';
 import Options from '@Components/Options';
-import { mathOperatorsArr } from '@Utils/math';
+import { mathOperators, mathOperatorsArr } from '@Utils/math';
 
 const MethodsList = Object.keys(NumericalMethods);
 
 interface State {
   [key: string]: any;
-  method: typeof NumericalMethods;
+  method: typeof MethodsList[number];
+  coefficients: string;
+  smallestNumber: number;
+  largestNumber: number;
+  rr_smallestNumber: number;
+  rr_largestNumber: number;
+  rr_derivedNumber: number;
+  terminatingOperation: keyof typeof mathOperators;
+  terminatingConditionValue: number;
+  iterations: NumericalMethodTypes.IterationObject[];
+  settings: NumericalMethodTypes.IterationResult;
 }
 
 export default class App extends React.PureComponent<{}, State> {
@@ -34,9 +47,10 @@ export default class App extends React.PureComponent<{}, State> {
     rr_smallestNumber: 5,
     rr_largestNumber: 5,
     rr_derivedNumber: 5,
-    terminatingOperation: '',
+    terminatingOperation: 'lte' as State['terminatingOperation'],
     terminatingConditionValue: 0.0001,
     iterations: [],
+    settings: {} as State['settings'],
   };
 
   btnClick = () => {
@@ -62,13 +76,14 @@ export default class App extends React.PureComponent<{}, State> {
       smallestNumber: this.state.rr_smallestNumber,
       largestNumber: this.state.rr_largestNumber,
       derivedNumber: this.state.rr_derivedNumber,
-    } as IterationValue;
+    } as NumericalMethodTypes.IterationValue;
     method.process(this.state.smallestNumber, this.state.largestNumber);
 
     console.log('Form submitted');
 
     this.setState({
       iterations: method.iterations,
+      settings: method.roundingRules,
     });
   };
 
@@ -187,7 +202,10 @@ export default class App extends React.PureComponent<{}, State> {
         </Header>
         <Main>
           <div>
-            <IterationTable data={this.state.iterations} />
+            <IterationTable
+              data={this.state.iterations}
+              settings={this.state.settings}
+            />
           </div>
         </Main>
       </div>

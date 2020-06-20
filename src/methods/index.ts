@@ -1,12 +1,12 @@
-import NumericalMethod, { IterationValue } from './NumericalMethod';
+import NumericalMethod, * as NumericalMethodTypes from './NumericalMethod';
 import Bisection from './bisection';
 import Secant from './secant';
 import RegulaFalsi from './regulafalsi';
 
-interface Test {
+interface NumericalMethods {
   [key: string]: any;
 }
 
-export { NumericalMethod, IterationValue };
+export { NumericalMethod, NumericalMethodTypes };
 
-export default { Bisection, Secant, RegulaFalsi } as Test;
+export default { Bisection, Secant, RegulaFalsi } as NumericalMethods;
