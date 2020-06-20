@@ -10,31 +10,31 @@ export default class PolynomialText extends React.PureComponent<Props> {
   };
 
   updateText = () => {
-    const coefficients = this.props.value.toString().split(' ');
+    const coefficients = this.props.value
+      .toString()
+      .trim()
+      .split(' ')
+      .reduce<number[]>((acc, val) => {
+        if (val != null) {
+          const parsedVal = parseFloat(val);
+          if (isFinite(parsedVal)) {
+            acc.push(parsedVal);
+          }
+        }
+        return acc;
+      }, []);
 
     const polynomialString = coefficients.reduce<JSX.Element[]>(
-      (acc: JSX.Element[], coeff: string, index: number) => {
-        if (parseFloat(coeff) === 0) {
+      (acc: JSX.Element[], coeff: number, index: number) => {
+        if (coeff === 0) {
           return acc;
         }
 
         let res: JSX.Element = <></>;
+        let sign = coeff < 0 ? '-' : index === 0 ? '' : '+';
 
-        let numText = '';
-        if (Math.abs(parseFloat(coeff)) !== 1) {
-          if (index === 0) {
-            numText = coeff;
-          } else {
-            numText = parseFloat(coeff) >= 0 ? `+${coeff}` : coeff;
-          }
-        } else {
-          numText = '-';
-          if (parseFloat(coeff) > 0) {
-            if (index !== 0) {
-              numText = '+';
-            }
-          }
-        }
+        let numText =
+          coeff == 1 && index === 0 ? `${sign}` : `${sign}${Math.abs(coeff)}`;
 
         const expText = coefficients.length - (index + 1);
         res = (
