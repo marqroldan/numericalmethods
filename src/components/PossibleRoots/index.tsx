@@ -37,7 +37,9 @@ export default class PossibleRoots extends React.Component<Props, State> {
   render() {
     return (
       <div className={'PossibleRoots'}>
-        <Text className={'heading3'}>Possible Roots</Text>
+        <Text className={'heading3'}>
+          Possible Roots ({this.state.possibleRoots.length})
+        </Text>
         {this.state.possibleRoots.map((roots, index) => {
           return (
             <div className={'PossibleRootsContainer'} key={`${index}_`}>
