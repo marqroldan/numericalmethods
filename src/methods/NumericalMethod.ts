@@ -58,7 +58,7 @@ export default class NumericalMethod {
   }
 
   set roundingRules(
-    value: number | IterationResult | { [key: string]: string | number}
+    value: number | IterationResult | { [key: string]: string | number }
   ) {
     if (!['object', 'number'].includes(typeof value)) {
       return;
@@ -72,10 +72,10 @@ export default class NumericalMethod {
       this._roundingRules = Object.assign(this._roundingRules, value);
 
       Object.keys(this._roundingRules).reduce((acc, rrKey) => {
-        const rParsedValue = parseInt(value[rrKey].toString());
-        acc[rrKey] = isFinite(rParsedValue)
-          ? rParsedValue
-          : this._roundingRules[rrKey];
+        acc[rrKey] =
+          value[rrKey] != null
+            ? parseInt(value[rrKey].toString())
+            : this._roundingRules[rrKey];
         return acc;
       }, {} as IterationResult);
     }
@@ -159,7 +159,7 @@ export default class NumericalMethod {
     return this._iterations;
   }
 
-  initialErrorChecker = () => {
+  initialErrorChecker = (smallN: number | string, largeN: number | string) => {
     const errorList = this._errorList;
 
     if (!this.formula) {
@@ -170,14 +170,14 @@ export default class NumericalMethod {
       errorList.push(`_coefficients is empty :: ${this._coefficients}`);
     }
 
-    if (!isFinite(this.smallestNumber)) {
+    if (smallN != null || !isFinite(smallN)) {
       errorList.push(
-        `Number not finite -> smallestNumber :: ${typeof this.smallestNumber}`
+        `Value not finite -> smallestNumber :: ${typeof smallN} => ${smallN}`
       );
     }
-    if (!isFinite(this.largestNumber)) {
+    if (largeN != null || !isFinite(largeN)) {
       errorList.push(
-        `Number not finite -> largestNumber :: ${typeof this.largestNumber}`
+        `Value not finite -> largestNumber :: ${typeof largeN} => ${largeN}`
       );
     }
 
@@ -197,12 +197,12 @@ export default class NumericalMethod {
     smallestNumber: number | string,
     largestNumber: number | string
   ): void => {
-    this._iterations = [];
     this._errorList = [];
+    this.initialErrorChecker(smallestNumber, largestNumber);
+    this._iterations = [];
+
     this.smallestNumber = parseFloat(smallestNumber.toString());
     this.largestNumber = parseFloat(largestNumber.toString());
-
-    this.initialErrorChecker();
 
     const derivedNumberDigits = this._roundingRules['derivedNumber'];
     let _numberParts = this.terminatingConditionValue.toString().split('.');
