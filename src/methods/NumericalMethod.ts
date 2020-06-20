@@ -6,8 +6,14 @@ export interface IterationError {
   error: string;
 }
 
+export interface AbsoluteErrors {
+  smallest: number;
+  largest: number;
+}
+
 export interface IterationResult {
-  [key: string]: number;
+  [key: string]: any;
+  errorValues: AbsoluteErrors;
   smallestNumber: number;
   largestNumber: number;
   derivedNumber: number;
@@ -45,7 +51,7 @@ export default class NumericalMethod {
       MathUtils.mathOperators[this._terminatingCondition];
   }
 
-  protected _roundingRules: IterationResult = {
+  protected _roundingRules: Omit<IterationResult, 'errorValues'> = {
     smallestNumber: 4,
     largestNumber: 4,
     derivedNumber: 4,
@@ -170,6 +176,13 @@ export default class NumericalMethod {
     }
   };
 
+  errorValuesGenerator = (): AbsoluteErrors => ({
+    largest: Math.abs(this.derivedNumber - this.maxSubtractor),
+    smallest: Math.abs(this.derivedNumber - this.minSubtractor),
+  });
+
+  errorValues: AbsoluteErrors = this.errorValuesGenerator();
+
   protected _iterations: IterationObject[] = [];
 
   get iterations() {
@@ -227,17 +240,11 @@ export default class NumericalMethod {
 
     while (
       !this.terminatingOperation(
-        MathUtils.round(
-          Math.abs(this.derivedNumber - this.minSubtractor),
-          decimalNumbers
-        ),
+        MathUtils.round(this.errorValues.largest, decimalNumbers),
         this._terminatingConditionValue
       ) &&
       !this.terminatingOperation(
-        MathUtils.round(
-          Math.abs(this.derivedNumber - this.maxSubtractor),
-          decimalNumbers
-        ),
+        MathUtils.round(this.errorValues.smallest, decimalNumbers),
         this._terminatingConditionValue
       ) &&
       this.limitCounter <= this.limit
@@ -284,6 +291,7 @@ export default class NumericalMethod {
       );
 
       const resObj: IterationObject = {
+        errorValues: this.errorValues,
         iterationNumber: this._iterations.length + 1,
         derivedNumber,
         smallestNumber,
@@ -292,6 +300,8 @@ export default class NumericalMethod {
         f_smallestNumber: this.polynomialFunction(smallestNumber),
         f_largestNumber: this.polynomialFunction(largestNumber),
       };
+
+      this.errorValues = this.errorValuesGenerator();
 
       console.table(resObj);
       this._iterations.push(resObj);
