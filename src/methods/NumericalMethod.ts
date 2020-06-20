@@ -31,6 +31,7 @@ export interface TerminatingConditions {
   [key: string]: any;
   terminatingCondition: keyof typeof MathUtils.mathOperators;
   terminatingConditionValue: number;
+  decimalNumbers: number;
 }
 
 export type MethodSettings =
@@ -207,6 +208,7 @@ export default class NumericalMethod {
       ...this._roundingRules,
       terminatingCondition: this._terminatingCondition,
       terminatingConditionValue: this._terminatingConditionValue,
+      decimalNumbers: this.decimalTCValue,
     };
   }
 
@@ -248,6 +250,8 @@ export default class NumericalMethod {
     }
   };
 
+  decimalTCValue = 0;
+
   process = (
     smallestNumber: number | string,
     largestNumber: number | string
@@ -258,18 +262,17 @@ export default class NumericalMethod {
     this.smallestNumber = parseFloat(smallestNumber.toString());
     this.largestNumber = parseFloat(largestNumber.toString());
 
-    let _numberParts = this._terminatingConditionValue.toString().split('.');
-    let decimalNumbers = _numberParts.length > 1 ? _numberParts[1].length : 0;
-
-    console.log('decimal', decimalNumbers);
+    const _numberParts = this._terminatingConditionValue.toString().split('.');
+    const decimalNumbers = _numberParts.length > 1 ? _numberParts[1].length : 0;
+    this.decimalTCValue = decimalNumbers;
 
     while (
       !this.terminatingOperation(
-        MathUtils.round(this.errorValues.largest, decimalNumbers),
+        MathUtils.round(this.errorValues.largest, this.decimalTCValue),
         this._terminatingConditionValue
       ) &&
       !this.terminatingOperation(
-        MathUtils.round(this.errorValues.smallest, decimalNumbers),
+        MathUtils.round(this.errorValues.smallest, this.decimalTCValue),
         this._terminatingConditionValue
       ) &&
       this.limitCounter <= this.limit
