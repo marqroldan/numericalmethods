@@ -35,6 +35,10 @@ const typeHandlers = {
       data.smallest,
       settings.decimalNumbers
     );
+    const roundedFromZero = MathUtils.round(
+      data.fromZero,
+      settings.decimalNumbers + 3
+    );
 
     return (
       <>
@@ -61,30 +65,32 @@ const typeHandlers = {
 export default class IterationRow extends React.PureComponent<
   Props & IterationObject
 > {
+  originalStyle = [
+    'IterationRow',
+    ...(this.props.error ? ['IterationRowError'] : []),
+  ];
+
   render() {
-    if (this.props.error) {
-      return <div className={'IterationRowError'}>error</div>;
-    } else {
-      return (
-        <div className={'IterationRow'}>
-          {rowArrangement.map((key, index) => (
-            <div className={'IterationRow__col'} key={`${index}_`}>
-              {!INVALIDVALUES.includes(this.props[key])
-                ? typeof this.props[key] === 'object'
-                  ? typeHandlers[key]
-                    ? typeHandlers[key](this.props[key], this.props.settings)
-                    : JSON.stringify(this.props[key])
-                  : this.props.settings[key]
-                  ? MathUtils.round(
-                      this.props[key],
-                      this.props.settings[key]
-                    ).toFixed(this.props.settings[key])
-                  : this.props[key]
-                : 'Unknown'}
-            </div>
-          ))}
-        </div>
-      );
-    }
+    console.log('HUH', Object.keys(this.props));
+    return (
+      <div className={this.originalStyle.join(' ')}>
+        {rowArrangement.map((key, index) => (
+          <div className={'IterationRow__col'} key={`${index}_`}>
+            {!INVALIDVALUES.includes(this.props[key])
+              ? typeof this.props[key] === 'object'
+                ? typeHandlers[key]
+                  ? typeHandlers[key](this.props[key], this.props.settings)
+                  : JSON.stringify(this.props[key])
+                : this.props.settings[key]
+                ? MathUtils.round(
+                    this.props[key],
+                    this.props.settings[key]
+                  ).toFixed(this.props.settings[key])
+                : this.props[key]
+              : 'Unknown'}
+          </div>
+        ))}
+      </div>
+    );
   }
 }

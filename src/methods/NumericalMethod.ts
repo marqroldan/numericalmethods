@@ -317,10 +317,8 @@ export default class NumericalMethod {
       resObj.errorValues = this.errorValues;
 
       if (lastErrorValue.fromZero < this.errorValues.fromZero && !testLR()) {
-        console.log('yes', lastErrorValue.fromZero, this.errorValues.fromZero);
         this._iterations.push({
           ...resObj,
-          iterationNumber: this._iterations.length,
           error: ERROR_CONSTANTS.LASTVALUESMALLER,
         });
         break;
