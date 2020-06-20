@@ -57,6 +57,6 @@ export default class PolynomialText extends React.PureComponent<Props> {
   }
 
   render() {
-    return this.state.polynomialString.reverse();
+    return this.state.polynomialString;
   }
 }
