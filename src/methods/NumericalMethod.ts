@@ -9,6 +9,7 @@ export interface IterationError {
 export interface AbsoluteErrors {
   smallest: number;
   largest: number;
+  fromZero: number;
 }
 
 export interface IterationResult {
@@ -165,7 +166,6 @@ export default class NumericalMethod {
   limit: number = 100;
   protected formula: Function = () => 0;
 
-  protected derivedNumber: number = 99999;
   protected minSubtractor: number = 0;
   protected maxSubtractor: number = 0;
 
@@ -187,14 +187,15 @@ export default class NumericalMethod {
     }
   };
 
-  errorValuesGenerator = (): AbsoluteErrors => {
+  errorValuesGenerator = (derivedNumber: number): AbsoluteErrors => {
     return {
-      largest: Math.abs(this.derivedNumber - this.maxSubtractor),
-      smallest: Math.abs(this.derivedNumber - this.minSubtractor),
+      largest: Math.abs(derivedNumber - this.maxSubtractor),
+      smallest: Math.abs(derivedNumber - this.minSubtractor),
+      fromZero: Math.abs(0 - this.polynomialFunction(derivedNumber)),
     };
   };
 
-  errorValues: AbsoluteErrors = this.errorValuesGenerator();
+  errorValues: AbsoluteErrors = this.errorValuesGenerator(9999);
 
   protected _iterations: IterationObject[] = [];
 
@@ -265,7 +266,7 @@ export default class NumericalMethod {
     const decimalNumbers = _numberParts.length > 1 ? _numberParts[1].length : 0;
     this.decimalTCValue = decimalNumbers;
 
-    while (
+    let testLR = () =>
       !this.terminatingOperation(
         MathUtils.round(this.errorValues.largest, this.decimalTCValue),
         this._terminatingConditionValue
@@ -273,30 +274,9 @@ export default class NumericalMethod {
       !this.terminatingOperation(
         MathUtils.round(this.errorValues.smallest, this.decimalTCValue),
         this._terminatingConditionValue
-      ) &&
-      this.limitCounter <= this.limit
-      /*
+      );
 
-      (
-        isFinite(this.derivedNumber) &&
-        isFinite(this.smallestNumber) &&
-        isFinite(this.largestNumber)
-      ) &&
-      */
-    ) {
-      if (false) {
-        console.log(
-          this._iterations.length + 1,
-          'Comparing values',
-          this.derivedNumber,
-          this.minSubtractor,
-          Math.abs(this.derivedNumber - this.minSubtractor),
-          this.maxSubtractor,
-          Math.abs(this.derivedNumber - this.maxSubtractor),
-          this._terminatingConditionValue,
-          this.terminatingCondition
-        );
-      }
+    while (testLR() && this.limitCounter <= this.limit) {
       let derivedNumber = MathUtils.round(
         this.formula(),
         this._roundingRules.derivedNumber
@@ -330,12 +310,24 @@ export default class NumericalMethod {
         f_largestNumber: this.polynomialFunction(largestNumber),
       };
 
-      console.table(resObj);
-      this.derivedNumber = derivedNumber;
       this.rule(resObj);
-      this.errorValues = this.errorValuesGenerator();
+
+      const lastErrorValue: AbsoluteErrors = this.errorValues;
+      this.errorValues = this.errorValuesGenerator(derivedNumber);
       resObj.errorValues = this.errorValues;
-      this._iterations.push(resObj);
+
+      if (lastErrorValue.fromZero < this.errorValues.fromZero && !testLR()) {
+        console.log('yes', lastErrorValue.fromZero, this.errorValues.fromZero);
+        this._iterations.push({
+          ...resObj,
+          iterationNumber: this._iterations.length,
+          error: ERROR_CONSTANTS.LASTVALUESMALLER,
+        });
+        break;
+      } else {
+        this._iterations.push(resObj);
+      }
+
       this.limitCounter++;
 
       if (this.limitCounter > this.limit) {
