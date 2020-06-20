@@ -8,12 +8,12 @@ export interface IterationError {
 
 export interface IterationResult {
   [key: string]: any;
-  smallestNumber: number;
-  largestNumber: number;
-  derivedNumber: number;
-  f_smallestNumber: number;
-  f_largestNumber: number;
-  f_derivedNumber: number;
+  smallestNumber: number | string;
+  largestNumber: number | string;
+  derivedNumber: number | string;
+  f_smallestNumber: number | string;
+  f_largestNumber: number | string;
+  f_derivedNumber: number | string;
 }
 
 export interface IterationValue extends IterationResult {
@@ -58,9 +58,13 @@ export default class NumericalMethod {
   }
 
   set roundingRules(value: number | IterationObject) {
-    if (typeof value === 'number') {
+    if (!['object', 'number'].includes(typeof value)) {
+      return;
+    }
+    const parsedValue = parseInt(value.toString());
+    if (isFinite(parsedValue)) {
       Object.keys(this._roundingRules).map((rrKey) => {
-        this._roundingRules[rrKey] = value;
+        this._roundingRules[rrKey] = parsedValue;
       });
     } else if (typeof value === 'object') {
       this._roundingRules = Object.assign(this._roundingRules, value);
@@ -83,15 +87,28 @@ export default class NumericalMethod {
     return this._coefficients;
   }
 
-  set coefficients(values: number[]) {
-    if (Array.isArray(values)) {
-      const finalValues = values.filter((value) => typeof value === 'number');
-      if (finalValues.length) {
-        this._coefficients = finalValues;
-        this.polynomialFunction = MathUtils.polynomialFuncFactory(
-          this._coefficients
-        );
+  set coefficients(values: string | number[]) {
+    const finalValue = Array.isArray(values) ? values.join(' ') : values;
+    if (typeof finalValue === 'string') {
+      const _coeffRaw = values
+        .toString()
+        .split(' ')
+        .reverse()
+        .map((item) => parseFloat(item));
+
+      //Test for bad values
+      const coefficients = _coeffRaw.filter((coeff) => isFinite(coeff));
+
+      if (coefficients.length !== _coeffRaw.length) {
+        const errorMes = 'Bad coefficients value';
+        this._errorList.push(`${errorMes}: `, coefficients.toString());
+        throw new Error(errorMes);
       }
+
+      this._coefficients = coefficients;
+      this.polynomialFunction = MathUtils.polynomialFuncFactory(
+        this._coefficients
+      );
     }
   }
 
@@ -118,10 +135,12 @@ export default class NumericalMethod {
 
     if (resObj.f_derivedNumber > 0) {
       this.maxSubtractor = this.largestNumber;
-      this.largestNumber = resObj.derivedNumber;
-    } else {
+      this.largestNumber = parseFloat(resObj.derivedNumber.toString());
+    } else if (resObj.f_derivedNumber < 0) {
       this.minSubtractor = this.smallestNumber;
-      this.smallestNumber = resObj.derivedNumber;
+      this.smallestNumber = parseFloat(resObj.derivedNumber.toString());
+    } else {
+      throw new Error('ROOT NUMBER FOUND!');
     }
   };
 
@@ -131,27 +150,56 @@ export default class NumericalMethod {
     return this._iterations;
   }
 
-  process = (smallestNumber: number, largestNumber: number): void => {
-    this._iterations = [];
-    this._errorList = [];
-    this.smallestNumber = smallestNumber;
-    this.largestNumber = largestNumber;
+  initialErrorChecker = () => {
+    const errorList = this._errorList;
 
-    if (
-      !this.formula ||
-      !this._coefficients.length ||
-      typeof this.smallestNumber !== 'number' ||
-      typeof this.largestNumber !== 'number' ||
-      this.largestNumber === this.smallestNumber
-    ) {
-      throw new Error('Values missing.');
+    if (!this.formula) {
+      errorList.push(`Formula missing :: ${this.formula}`);
     }
 
-    const derivedNumberDigits = this._roundingRules['derivedNumber'];
-    let decimalNumbers = (this?.terminatingConditionValue ?? 0)
-      .toString()
-      .split('.')
-      .pop().length;
+    if (!this._coefficients.length) {
+      errorList.push(`_coefficients is empty :: ${this._coefficients}`);
+    }
+
+    if (!isFinite(this.smallestNumber)) {
+      errorList.push(
+        `Number not finite -> smallestNumber :: ${typeof this.smallestNumber}`
+      );
+    }
+    if (!isFinite(this.largestNumber)) {
+      errorList.push(
+        `Number not finite -> largestNumber :: ${typeof this.largestNumber}`
+      );
+    }
+
+    if (this.largestNumber === this.smallestNumber) {
+      errorList.push(
+        `Largest and Smallest number is the same :: ${this.largestNumber}, ${this.smallestNumber}`
+      );
+    }
+
+    if (errorList.length) {
+      console.error('Errors found', errorList);
+      throw new Error('Initial checking failure');
+    }
+  };
+
+  process = (
+    smallestNumber: number | string,
+    largestNumber: number | string
+  ): void => {
+    this._iterations = [];
+    this._errorList = [];
+    this.smallestNumber = parseFloat(smallestNumber.toString());
+    this.largestNumber = parseFloat(largestNumber.toString());
+
+    this.initialErrorChecker();
+
+    const derivedNumberDigits = parseInt(
+      this._roundingRules['derivedNumber'].toString()
+    );
+    let _numberParts = this.terminatingConditionValue.toString().split('.');
+    let decimalNumbers = _numberParts.length > 1 ? _numberParts[1].length : 0;
 
     console.log('decimal', decimalNumbers);
 

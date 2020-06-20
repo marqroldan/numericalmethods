@@ -25,13 +25,13 @@ interface State {
   [key: string]: any;
   method: typeof MethodsList[number];
   coefficients: string;
-  smallestNumber: number;
-  largestNumber: number;
-  rr_smallestNumber: number;
-  rr_largestNumber: number;
-  rr_derivedNumber: number;
+  smallestNumber: string;
+  largestNumber: string;
+  rr_smallestNumber: string;
+  rr_largestNumber: string;
+  rr_derivedNumber: string;
   terminatingOperation: keyof typeof mathOperators;
-  terminatingConditionValue: number;
+  terminatingConditionValue: string;
   iterations: NumericalMethodTypes.IterationObject[];
   settings: NumericalMethodTypes.IterationResult;
 }
@@ -42,13 +42,13 @@ export default class App extends React.PureComponent<{}, State> {
   state = {
     coefficients: '1 -4 1 -10',
     method: '',
-    smallestNumber: 4,
-    largestNumber: 5,
-    rr_smallestNumber: 5,
-    rr_largestNumber: 5,
-    rr_derivedNumber: 5,
+    smallestNumber: '4',
+    largestNumber: '5',
+    rr_smallestNumber: '4',
+    rr_largestNumber: '4',
+    rr_derivedNumber: '4',
     terminatingOperation: 'lte' as State['terminatingOperation'],
-    terminatingConditionValue: 0.0001,
+    terminatingConditionValue: '0.0001',
     iterations: [],
     settings: {} as State['settings'],
   };
@@ -67,10 +67,7 @@ export default class App extends React.PureComponent<{}, State> {
   formSubmit = () => {
     const method: NumericalMethod = new NumericalMethods[this.state.method]();
 
-    method.coefficients = this.state.coefficients
-      .split(' ')
-      .reverse()
-      .map((item) => parseFloat(item));
+    method.coefficients = this.state.coefficients;
 
     method.roundingRules = {
       smallestNumber: this.state.rr_smallestNumber,
