@@ -25,7 +25,11 @@ export default class IterationTable extends React.PureComponent<Props> {
 
         {data.map((item, index) => {
           return (
-            <IterationRow key={`${index}__`} {...item}>
+            <IterationRow
+              key={`${index}__`}
+              {...item}
+              settings={this.props.settings}
+            >
               {JSON.stringify(item)}
             </IterationRow>
           );

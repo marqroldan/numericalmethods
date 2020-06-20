@@ -1,10 +1,23 @@
 import './styles.scss';
 import React from 'react';
-import { IterationObject } from '@Methods/NumericalMethod';
+import { IterationObject, IterationResult } from '@Methods/NumericalMethod';
 
 interface Props {
   [key: string]: any;
+  settings: IterationResult;
 }
+
+const INVALIDVALUES = [undefined, null];
+
+const rowArrangement = [
+  'iterationNumber',
+  'smallestNumber',
+  'derivedNumber',
+  'largestNumber',
+  'f_smallestNumber',
+  'f_derivedNumber',
+  'f_largestNumber',
+];
 
 export default class IterationRow extends React.PureComponent<
   Props & IterationObject
@@ -15,21 +28,17 @@ export default class IterationRow extends React.PureComponent<
     } else {
       return (
         <div className={'IterationRow'}>
-          <div className={'IterationRow__col'}>
-            {this.props.iterationNumber}
-          </div>
-          <div className={'IterationRow__col'}>{this.props.smallestNumber}</div>
-          <div className={'IterationRow__col'}>{this.props.derivedNumber}</div>
-          <div className={'IterationRow__col'}>{this.props.largestNumber}</div>
-          <div className={'IterationRow__col'}>
-            {this.props.f_smallestNumber}
-          </div>
-          <div className={'IterationRow__col'}>
-            {this.props.f_derivedNumber}
-          </div>
-          <div className={'IterationRow__col'}>
-            {this.props.f_largestNumber}
-          </div>
+          {rowArrangement.map((key, index) => (
+            <div className={'IterationRow__col'} key={`${index}_`}>
+              {!INVALIDVALUES.includes(this.props[key])
+                ? this.props.settings[key]
+                  ? parseFloat(this.props[key]).toFixed(
+                      this.props.settings[key]
+                    )
+                  : this.props[key]
+                : 'Unknown'}
+            </div>
+          ))}
         </div>
       );
     }
