@@ -2,7 +2,7 @@
 
 .IterationRow {
   display: grid;
-  grid-template-columns: repeat(8, minmax(200px, 1fr));
+  grid-template-columns: repeat(8, minmax(100px, 1fr));
 
   &Container {
     &:nth-child(odd) {
