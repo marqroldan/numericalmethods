@@ -9,6 +9,7 @@ import NumericalMethods, {
 
 import Header from '@Components/Header';
 import Main from '@Components/Main';
+import Sidebar from '@Components/Sidebar';
 import Field from '@Components/Field';
 import Input from '@Components/Input';
 import ButtonDropdown from '@Components/ButtonDropdown';
@@ -231,9 +232,6 @@ export default class App extends React.PureComponent<{}, State> {
                   />
                 </Field>
               </FieldGroup>
-              <FieldGroup label={'Polynomial Function'}>
-                <PolynomialText value={this.state.coefficients} />
-              </FieldGroup>
             </div>
             <div>
               <ButtonDropdown
@@ -246,7 +244,12 @@ export default class App extends React.PureComponent<{}, State> {
           </form>
         </Header>
         <Main>
-          <PossibleRoots coefficients={this.state.coefficients} />
+          <Sidebar>
+            <FieldGroup label={'Polynomial Function'}>
+              <PolynomialText value={this.state.coefficients} />
+            </FieldGroup>
+            <PossibleRoots coefficients={this.state.coefficients} />
+          </Sidebar>
           <IterationTable
             data={this.state.iterations}
             settings={this.state.settings}
