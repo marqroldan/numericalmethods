@@ -1,5 +1,9 @@
 @import 'config.scss';
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: #121212;
   padding: 0;
