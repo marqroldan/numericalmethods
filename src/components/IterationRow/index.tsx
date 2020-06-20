@@ -73,7 +73,6 @@ export default class IterationRow extends React.PureComponent<
   ].join(' ');
 
   render() {
-    console.log('HUH', Object.keys(this.props));
     return (
       <div className={this.originalStyle}>
         <div className={'IterationRow'}>
