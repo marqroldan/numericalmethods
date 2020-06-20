@@ -74,6 +74,7 @@ export default class App extends React.PureComponent<{}, State> {
     const method: NumericalMethod = new NumericalMethods[this.state.method]();
 
     method.coefficients = this.state.coefficients;
+    method.terminatingCondition = this.state.terminatingOperation;
 
     method.roundingRules = {
       smallestNumber: this.state.rr_smallestNumber,
