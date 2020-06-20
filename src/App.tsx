@@ -48,7 +48,7 @@ export default class App extends React.PureComponent<{}, State> {
   formRef = React.createRef<HTMLFormElement>();
 
   state = {
-    coefficients: '1 -4 1 -10',
+    coefficients: '-3 0 0 1 4 -2',
     method: '',
     smallestNumber: '4',
     largestNumber: '5',
@@ -76,8 +76,8 @@ export default class App extends React.PureComponent<{}, State> {
   };
 
   formSubmit = () => {
-    //countPossibleRoots(coefficientsFactory(this.state.coefficients));
-    //return;
+    countPossibleRoots(coefficientsFactory(this.state.coefficients));
+    return;
     const method: NumericalMethod = new NumericalMethods[this.state.method]();
 
     method.coefficients = this.state.coefficients;
