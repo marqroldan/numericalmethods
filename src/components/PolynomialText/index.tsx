@@ -1,4 +1,5 @@
 import React from 'react';
+import { coefficientsFactory } from '@Utils/math';
 
 interface Props {
   value: string;
@@ -10,19 +11,7 @@ export default class PolynomialText extends React.PureComponent<Props> {
   };
 
   updateText = () => {
-    const coefficients = this.props.value
-      .toString()
-      .trim()
-      .split(' ')
-      .reduce<number[]>((acc, val) => {
-        if (val != null) {
-          const parsedVal = parseFloat(val);
-          if (isFinite(parsedVal)) {
-            acc.push(parsedVal);
-          }
-        }
-        return acc;
-      }, []);
+    const coefficients = coefficientsFactory(this.props.value.toString());
 
     const polynomialString = coefficients.reduce<JSX.Element[]>(
       (acc: JSX.Element[], coeff: number, index: number) => {

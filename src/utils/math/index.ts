@@ -60,3 +60,19 @@ export const round = (value: number | string, dp = 0) => {
   const scaler = parseFloat('1' + '0'.repeat(dp));
   return Math.round((parseFloat(value) + Number.EPSILON) * scaler) / scaler;
 };
+
+export const coefficientsFactory = (value: string): number[] => {
+  return value
+    .toString()
+    .trim()
+    .split(' ')
+    .reduce<number[]>((acc, val) => {
+      if (val != null) {
+        const parsedVal = parseFloat(val);
+        if (isFinite(parsedVal)) {
+          acc.push(parsedVal);
+        }
+      }
+      return acc;
+    }, []);
+};
