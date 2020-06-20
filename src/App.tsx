@@ -252,12 +252,10 @@ export default class App extends React.PureComponent<{}, State> {
           </form>
         </Header>
         <Main>
-          <div>
-            <IterationTable
-              data={this.state.iterations}
-              settings={this.state.settings}
-            />
-          </div>
+          <IterationTable
+            data={this.state.iterations}
+            settings={this.state.settings}
+          />
         </Main>
       </div>
     );
