@@ -1,5 +1,6 @@
 import './styles.scss';
 import React from 'react';
+import * as MathUtils from '@Utils/math';
 import { IterationObject, IterationResult } from '@Methods/NumericalMethod';
 
 interface Props {
@@ -32,9 +33,10 @@ export default class IterationRow extends React.PureComponent<
             <div className={'IterationRow__col'} key={`${index}_`}>
               {!INVALIDVALUES.includes(this.props[key])
                 ? this.props.settings[key]
-                  ? parseFloat(this.props[key]).toFixed(
+                  ? MathUtils.round(
+                      this.props[key],
                       this.props.settings[key]
-                    )
+                    ).toFixed(this.props.settings[key])
                   : this.props[key]
                 : 'Unknown'}
             </div>

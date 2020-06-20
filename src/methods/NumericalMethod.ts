@@ -103,7 +103,7 @@ export default class NumericalMethod {
 
   private limitCounter: number = 0;
   limit: number = 100;
-  protected formula: Function | undefined;
+  protected formula: Function = () => 0;
 
   protected derivedNumber: number = 99999;
   protected minSubtractor: number = 0;
@@ -148,23 +148,25 @@ export default class NumericalMethod {
     }
 
     const derivedNumberDigits = this._roundingRules['derivedNumber'];
+    let decimalNumbers = (this?.terminatingConditionValue ?? 0)
+      .toString()
+      .split('.')
+      .pop().length;
+
+    console.log('decimal', decimalNumbers);
 
     while (
       !this.terminatingOperation(
-        parseFloat(
-          Math.abs(
-            this.derivedNumber -
-              parseFloat(this.minSubtractor.toPrecision(derivedNumberDigits))
-          ).toFixed(derivedNumberDigits)
+        MathUtils.round(
+          Math.abs(this.derivedNumber - this.minSubtractor),
+          derivedNumberDigits
         ),
         this.terminatingConditionValue
       ) &&
       !this.terminatingOperation(
-        parseFloat(
-          Math.abs(
-            this.derivedNumber -
-              parseFloat(this.maxSubtractor.toPrecision(derivedNumberDigits))
-          ).toFixed(derivedNumberDigits)
+        MathUtils.round(
+          Math.abs(this.derivedNumber - this.maxSubtractor),
+          derivedNumberDigits
         ),
         this.terminatingConditionValue
       ) &&
@@ -189,9 +191,7 @@ export default class NumericalMethod {
         this.terminatingConditionValue,
         this.terminatingCondition
       );
-      let derivedNumber = parseFloat(
-        this.formula().toPrecision(derivedNumberDigits)
-      );
+      let derivedNumber = MathUtils.round(this.formula(), derivedNumberDigits);
 
       if (!isFinite(derivedNumber)) {
         this._iterations.push({
@@ -201,19 +201,25 @@ export default class NumericalMethod {
         break;
       }
 
+      const smallestNumber = MathUtils.round(
+        this.smallestNumber,
+        derivedNumberDigits
+      );
+      const largestNumber = MathUtils.round(
+        this.largestNumber,
+        derivedNumberDigits
+      );
+
       const resObj: IterationObject = {
         iterationNumber: this._iterations.length + 1,
         derivedNumber,
-        smallestNumber: parseFloat(
-          this.smallestNumber.toPrecision(derivedNumberDigits)
-        ),
-        largestNumber: parseFloat(
-          this.largestNumber.toPrecision(derivedNumberDigits)
-        ),
+        smallestNumber,
+        largestNumber,
         f_derivedNumber: this.polynomialFunction(derivedNumber),
-        f_smallestNumber: this.polynomialFunction(this.smallestNumber),
-        f_largestNumber: this.polynomialFunction(this.largestNumber),
+        f_smallestNumber: this.polynomialFunction(smallestNumber),
+        f_largestNumber: this.polynomialFunction(largestNumber),
       };
+
       console.table(resObj);
       this._iterations.push(resObj);
       this.derivedNumber = derivedNumber;
