@@ -24,6 +24,7 @@ export interface IterationValue extends IterationResult {
 export type IterationObject = IterationValue | IterationError | IterationResult;
 
 export default class NumericalMethod {
+  protected _errorList: string[] = [];
   private _terminatingCondition: keyof typeof MathUtils.mathOperators = 'lte';
   protected terminatingOperation =
     MathUtils.mathOperators[this._terminatingCondition];
@@ -81,10 +82,28 @@ export default class NumericalMethod {
     }
   }
 
-  terminatingConditionValue: number = 0.0001;
+  private _terminatingConditionValue: number = 0.0001;
+
+  get terminatingConditionValue() {
+    return this._terminatingConditionValue;
+  }
+
+  set terminatingConditionValue(value: number | string) {
+    if (value != null) {
+      const parsedValue = parseFloat(value.toString());
+      if (isFinite(parsedValue)) {
+        this._terminatingConditionValue = parsedValue;
+        return;
+      }
+    }
+    const errMes = `Bad value for terminating condition value: ${value}`;
+    this._errorList.push(errMes);
+    throw new Error(errMes);
+  }
+
   constructor() {
     this.roundingRules = MathUtils.getSignificantDigits(
-      this.terminatingConditionValue
+      this._terminatingConditionValue
     );
   }
 
@@ -120,8 +139,6 @@ export default class NumericalMethod {
       );
     }
   }
-
-  protected _errorList: string[] = [];
 
   get errorList() {
     return this._errorList;
@@ -197,14 +214,13 @@ export default class NumericalMethod {
     smallestNumber: number | string,
     largestNumber: number | string
   ): void => {
-    this._errorList = [];
     this.initialErrorChecker(smallestNumber, largestNumber);
     this._iterations = [];
 
     this.smallestNumber = parseFloat(smallestNumber.toString());
     this.largestNumber = parseFloat(largestNumber.toString());
 
-    let _numberParts = this.terminatingConditionValue.toString().split('.');
+    let _numberParts = this._terminatingConditionValue.toString().split('.');
     let decimalNumbers = _numberParts.length > 1 ? _numberParts[1].length : 0;
 
     console.log('decimal', decimalNumbers);
@@ -215,14 +231,14 @@ export default class NumericalMethod {
           Math.abs(this.derivedNumber - this.minSubtractor),
           decimalNumbers
         ),
-        this.terminatingConditionValue
+        this._terminatingConditionValue
       ) &&
       !this.terminatingOperation(
         MathUtils.round(
           Math.abs(this.derivedNumber - this.maxSubtractor),
           decimalNumbers
         ),
-        this.terminatingConditionValue
+        this._terminatingConditionValue
       ) &&
       this.limitCounter <= this.limit
       /*
@@ -242,7 +258,7 @@ export default class NumericalMethod {
         Math.abs(this.derivedNumber - this.minSubtractor),
         this.maxSubtractor,
         Math.abs(this.derivedNumber - this.maxSubtractor),
-        this.terminatingConditionValue,
+        this._terminatingConditionValue,
         this.terminatingCondition
       );
       let derivedNumber = MathUtils.round(

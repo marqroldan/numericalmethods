@@ -82,6 +82,7 @@ export default class App extends React.PureComponent<{}, State> {
 
     method.coefficients = this.state.coefficients;
     method.terminatingCondition = this.state.terminatingOperation;
+    method.terminatingConditionValue = this.state.terminatingConditionValue;
 
     method.roundingRules = {
       smallestNumber: this.state.rr_smallestNumber,
