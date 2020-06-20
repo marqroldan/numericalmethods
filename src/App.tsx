@@ -30,6 +30,9 @@ interface State {
   rr_smallestNumber: string;
   rr_largestNumber: string;
   rr_derivedNumber: string;
+  rr_fx0: string;
+  rr_fx1: string;
+  rr_fx2: string;
   terminatingOperation: keyof typeof mathOperators;
   terminatingConditionValue: string;
   iterations: NumericalMethodTypes.IterationObject[];
@@ -47,6 +50,9 @@ export default class App extends React.PureComponent<{}, State> {
     rr_smallestNumber: '4',
     rr_largestNumber: '4',
     rr_derivedNumber: '4',
+    rr_fx0: '5',
+    rr_fx1: '5',
+    rr_fx2: '5',
     terminatingOperation: 'lte' as State['terminatingOperation'],
     terminatingConditionValue: '0.0001',
     iterations: [],
@@ -73,6 +79,9 @@ export default class App extends React.PureComponent<{}, State> {
       smallestNumber: this.state.rr_smallestNumber,
       largestNumber: this.state.rr_largestNumber,
       derivedNumber: this.state.rr_derivedNumber,
+      f_smallestNumber: this.state.rr_fx0,
+      f_largestNumber: this.state.rr_fx1,
+      f_derivedNumber: this.state.rr_fx2,
     };
     method.process(this.state.smallestNumber, this.state.largestNumber);
 
@@ -178,6 +187,42 @@ export default class App extends React.PureComponent<{}, State> {
                     sublabel={
                       <>
                         X<sub>2</sub>
+                      </>
+                    }
+                  />
+                </Field>
+                <Field>
+                  <Input
+                    value={this.state.rr_fx0}
+                    onChangeValue={this.valueChange('rr_fx0')}
+                    className={'small center'}
+                    sublabel={
+                      <>
+                        f(X<sub>0</sub>)
+                      </>
+                    }
+                  />
+                </Field>
+                <Field>
+                  <Input
+                    value={this.state.rr_fx1}
+                    onChangeValue={this.valueChange('rr_fx1')}
+                    className={'small center'}
+                    sublabel={
+                      <>
+                        f(X<sub>1</sub>)
+                      </>
+                    }
+                  />
+                </Field>
+                <Field>
+                  <Input
+                    value={this.state.rr_fx2}
+                    onChangeValue={this.valueChange('rr_fx2')}
+                    className={'small center'}
+                    sublabel={
+                      <>
+                        f(X<sub>2</sub>)
                       </>
                     }
                   />
