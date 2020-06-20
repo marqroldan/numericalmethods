@@ -1,24 +1,22 @@
+@import '@Styles/config';
+
 .IterationRow {
   display: grid;
   grid-template-columns: repeat(8, minmax(200px, 1fr));
 
-  &:nth-child(odd) {
-    background-color: rgba(255, 255, 255, 0.05);
+  &Container {
+    &:nth-child(odd) {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    &--error {
+      border: 1px solid $ERROR_COLOR;
+      background-color: $ERROR_COLOR;
+    }
   }
 
   &__col {
     display: flex;
     padding: 15px;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-
-  &--error {
-    display: flex;
-    border: 1px solid red;
-    padding: 15px;
-    background-color: red;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -31,6 +29,17 @@
   }
 
   &Error {
-    border: 1px solid red;
+    border: 1px solid $ERROR_COLOR;
+
+    &Text {
+      box-sizing: border-box;
+      width: 100%;
+      background: $ERROR_COLOR;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      padding: 15px;
+    }
   }
 }

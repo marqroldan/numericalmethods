@@ -59,7 +59,7 @@ export default class App extends React.PureComponent<{}, State> {
     rr_fx1: '5',
     rr_fx2: '5',
     terminatingOperation: 'lte' as State['terminatingOperation'],
-    terminatingConditionValue: '0.0001',
+    terminatingConditionValue: '0.00001',
     iterations: [],
     settings: {} as State['settings'],
   };

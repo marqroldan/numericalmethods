@@ -6,10 +6,12 @@ import {
   MethodSettings,
   AbsoluteErrors,
 } from '@Methods/NumericalMethod';
+import { ERROR_CONSTANTS, ERROR_MESSAGES } from '@Methods/constants';
 
 interface Props {
   [key: string]: any;
   settings: MethodSettings;
+  error: keyof typeof ERROR_CONSTANTS;
 }
 
 const INVALIDVALUES = [undefined, null];
@@ -66,30 +68,39 @@ export default class IterationRow extends React.PureComponent<
   Props & IterationObject
 > {
   originalStyle = [
-    'IterationRow',
-    ...(this.props.error ? ['IterationRowError'] : []),
-  ];
+    'IterationRowContainer',
+    ...(this.props.error ? ['IterationRowContainer--error'] : []),
+  ].join(' ');
 
   render() {
     console.log('HUH', Object.keys(this.props));
     return (
-      <div className={this.originalStyle.join(' ')}>
-        {rowArrangement.map((key, index) => (
-          <div className={'IterationRow__col'} key={`${index}_`}>
-            {!INVALIDVALUES.includes(this.props[key])
-              ? typeof this.props[key] === 'object'
-                ? typeHandlers[key]
-                  ? typeHandlers[key](this.props[key], this.props.settings)
-                  : JSON.stringify(this.props[key])
-                : this.props.settings[key]
-                ? MathUtils.round(
-                    this.props[key],
-                    this.props.settings[key]
-                  ).toFixed(this.props.settings[key])
-                : this.props[key]
-              : 'Unknown'}
+      <div className={this.originalStyle}>
+        <div className={'IterationRow'}>
+          {rowArrangement.map((key, index) => (
+            <div className={'IterationRow__col'} key={`${index}_`}>
+              {!INVALIDVALUES.includes(this.props[key])
+                ? typeof this.props[key] === 'object'
+                  ? typeHandlers[key]
+                    ? typeHandlers[key](this.props[key], this.props.settings)
+                    : JSON.stringify(this.props[key])
+                  : this.props.settings[key]
+                  ? MathUtils.round(
+                      this.props[key],
+                      this.props.settings[key]
+                    ).toFixed(this.props.settings[key])
+                  : this.props[key]
+                : 'Unknown'}
+            </div>
+          ))}
+        </div>
+        {this.props.error ? (
+          <div className={'IterationRowErrorText'}>
+            {ERROR_MESSAGES[this.props.error]
+              ? ERROR_MESSAGES[this.props.error]
+              : this.props.error}
           </div>
-        ))}
+        ) : null}
       </div>
     );
   }

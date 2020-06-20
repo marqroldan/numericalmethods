@@ -3,7 +3,7 @@ import * as MathUtils from '@Utils/math';
 
 export interface IterationError {
   iterationNumber: number;
-  error: string;
+  error: keyof typeof ERROR_CONSTANTS;
 }
 
 export interface AbsoluteErrors {
