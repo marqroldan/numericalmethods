@@ -176,10 +176,13 @@ export default class NumericalMethod {
     }
   };
 
-  errorValuesGenerator = (): AbsoluteErrors => ({
-    largest: Math.abs(this.derivedNumber - this.maxSubtractor),
-    smallest: Math.abs(this.derivedNumber - this.minSubtractor),
-  });
+  errorValuesGenerator = (): AbsoluteErrors => {
+    console.log('dammit', this.derivedNumber, this.maxSubtractor);
+    return {
+      largest: Math.abs(this.derivedNumber - this.maxSubtractor),
+      smallest: Math.abs(this.derivedNumber - this.minSubtractor),
+    };
+  };
 
   errorValues: AbsoluteErrors = this.errorValuesGenerator();
 
@@ -301,12 +304,12 @@ export default class NumericalMethod {
         f_largestNumber: this.polynomialFunction(largestNumber),
       };
 
-      this.errorValues = this.errorValuesGenerator();
-
       console.table(resObj);
-      this._iterations.push(resObj);
       this.derivedNumber = derivedNumber;
       this.rule(resObj);
+      this.errorValues = this.errorValuesGenerator();
+      resObj.errorValues = this.errorValues;
+      this._iterations.push(resObj);
       this.limitCounter++;
 
       if (this.limitCounter > this.limit) {
