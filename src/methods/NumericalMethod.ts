@@ -7,13 +7,13 @@ export interface IterationError {
 }
 
 export interface IterationResult {
-  [key: string]: any;
-  smallestNumber: number | string;
-  largestNumber: number | string;
-  derivedNumber: number | string;
-  f_smallestNumber: number | string;
-  f_largestNumber: number | string;
-  f_derivedNumber: number | string;
+  [key: string]: number;
+  smallestNumber: number;
+  largestNumber: number;
+  derivedNumber: number;
+  f_smallestNumber: number;
+  f_largestNumber: number;
+  f_derivedNumber: number;
 }
 
 export interface IterationValue extends IterationResult {
@@ -57,7 +57,9 @@ export default class NumericalMethod {
     return this._roundingRules;
   }
 
-  set roundingRules(value: number | IterationObject) {
+  set roundingRules(
+    value: number | IterationResult | { [key: string]: string | number}
+  ) {
     if (!['object', 'number'].includes(typeof value)) {
       return;
     }
@@ -68,6 +70,14 @@ export default class NumericalMethod {
       });
     } else if (typeof value === 'object') {
       this._roundingRules = Object.assign(this._roundingRules, value);
+
+      Object.keys(this._roundingRules).reduce((acc, rrKey) => {
+        const rParsedValue = parseInt(value[rrKey].toString());
+        acc[rrKey] = isFinite(rParsedValue)
+          ? rParsedValue
+          : this._roundingRules[rrKey];
+        return acc;
+      }, {} as IterationResult);
     }
   }
 
@@ -90,8 +100,7 @@ export default class NumericalMethod {
   set coefficients(values: string | number[]) {
     const finalValue = Array.isArray(values) ? values.join(' ') : values;
     if (typeof finalValue === 'string') {
-      const _coeffRaw = values
-        .toString()
+      const _coeffRaw = finalValue
         .split(' ')
         .reverse()
         .map((item) => parseFloat(item));
@@ -135,10 +144,10 @@ export default class NumericalMethod {
 
     if (resObj.f_derivedNumber > 0) {
       this.maxSubtractor = this.largestNumber;
-      this.largestNumber = parseFloat(resObj.derivedNumber.toString());
+      this.largestNumber = resObj.derivedNumber;
     } else if (resObj.f_derivedNumber < 0) {
       this.minSubtractor = this.smallestNumber;
-      this.smallestNumber = parseFloat(resObj.derivedNumber.toString());
+      this.smallestNumber = resObj.derivedNumber;
     } else {
       throw new Error('ROOT NUMBER FOUND!');
     }
@@ -195,9 +204,7 @@ export default class NumericalMethod {
 
     this.initialErrorChecker();
 
-    const derivedNumberDigits = parseInt(
-      this._roundingRules['derivedNumber'].toString()
-    );
+    const derivedNumberDigits = this._roundingRules['derivedNumber'];
     let _numberParts = this.terminatingConditionValue.toString().split('.');
     let decimalNumbers = _numberParts.length > 1 ? _numberParts[1].length : 0;
 
@@ -207,14 +214,14 @@ export default class NumericalMethod {
       !this.terminatingOperation(
         MathUtils.round(
           Math.abs(this.derivedNumber - this.minSubtractor),
-          derivedNumberDigits
+          decimalNumbers
         ),
         this.terminatingConditionValue
       ) &&
       !this.terminatingOperation(
         MathUtils.round(
           Math.abs(this.derivedNumber - this.maxSubtractor),
-          derivedNumberDigits
+          decimalNumbers
         ),
         this.terminatingConditionValue
       ) &&
@@ -239,7 +246,10 @@ export default class NumericalMethod {
         this.terminatingConditionValue,
         this.terminatingCondition
       );
-      let derivedNumber = MathUtils.round(this.formula(), derivedNumberDigits);
+      let derivedNumber = MathUtils.round(
+        this.formula(),
+        this._roundingRules['derivedNumber']
+      );
 
       if (!isFinite(derivedNumber)) {
         this._iterations.push({

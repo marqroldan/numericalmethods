@@ -73,14 +73,14 @@ export default class App extends React.PureComponent<{}, State> {
       smallestNumber: this.state.rr_smallestNumber,
       largestNumber: this.state.rr_largestNumber,
       derivedNumber: this.state.rr_derivedNumber,
-    } as NumericalMethodTypes.IterationValue;
+    };
     method.process(this.state.smallestNumber, this.state.largestNumber);
 
     console.log('Form submitted');
 
     this.setState({
       iterations: method.iterations,
-      settings: method.roundingRules,
+      settings: method.roundingRules as State['settings'],
     });
   };
 
