@@ -91,13 +91,11 @@ export const countPossibleRoots = (
   console.log('Number of positive', possiblePositive);
   console.log('-----------');
 
-  
-  const forPositiveIteration = coefficients.filter(
+  const forNegativeIteration = coefficients.filter(
     (coefficient) => coefficient != 0
   );
 
-
-  const possibleNegative = filteredCoefficients
+  const possibleNegative = forNegativeIteration
     .reverse()
     .reduce((acc, val, index) => {
       if (index !== 0) {
