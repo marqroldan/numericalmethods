@@ -16,9 +16,9 @@ export default class PossibleRoots extends React.Component<Props> {
     return (
       <div className={'PossibleRoots'}>
         <Text className={'heading3'}>Possible Roots</Text>
-        {possibleRoots.map((roots) => {
+        {possibleRoots.map((roots, index) => {
           return (
-            <div className={'PossibleRootsContainer'}>
+            <div className={'PossibleRootsContainer'} key={`${index}_`}>
               <div className={'PossibleRoots__values'}>
                 <Text className={'label'}>Positive</Text>
                 <div className={'PossibleRoots__value'}>{roots.positive}</div>
