@@ -1,7 +1,7 @@
 {
   "name": "numericalmethods",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.0.1",
+  "description": "Program for computing the root values through different numerical methods with Javascript",
   "main": "index.js",
   "dependencies": {
     "@types/react": "^16.9.36",
