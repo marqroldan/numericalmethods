@@ -24,7 +24,12 @@ export default class PolynomialText extends React.PureComponent<Props> {
         let res: JSX.Element = <></>;
         let sign = coeff < 0 ? '-' : index === 0 ? '' : '+';
 
-        let numText = coeff == 1 ? `${sign}` : `${sign}${Math.abs(coeff)}`;
+        let numText =
+          coeff == 1
+            ? index == coefficients.length - 1
+              ? `${sign}${coeff}`
+              : `${sign}`
+            : `${sign}${Math.abs(coeff)}`;
 
         const expText = coefficients.length - (index + 1);
         res = (
