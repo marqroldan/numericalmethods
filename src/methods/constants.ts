@@ -2,6 +2,7 @@ export const ERROR_CONSTANTS = {
   NONFINITE: 'NONFINITE',
   LIMITREACHED: 'LIMITREACHED',
   LASTVALUESMALLER: 'LASTVALUESMALLER',
+  FARFROMZERO: 'FARFROMZERO',
 } as const;
 
 export const ERROR_MESSAGES = {
@@ -10,4 +11,6 @@ export const ERROR_MESSAGES = {
     'Limit of maximum iterations has been reached',
   [ERROR_CONSTANTS.LASTVALUESMALLER]:
     'Last value encountered is much closer to 0 than the value in this iteration',
+  [ERROR_CONSTANTS.FARFROMZERO]:
+    'Last value encountered produces a value very far from 0',
 } as const;

@@ -304,15 +304,23 @@ export default class NumericalMethod {
       this.errorValues = this.errorValuesGenerator(derivedNumber);
       resObj.errorValues = this.errorValues;
 
-      if (lastErrorValue.fromZero < this.errorValues.fromZero && !testLR()) {
-        this._iterations.push({
-          ...resObj,
-          error: ERROR_CONSTANTS.LASTVALUESMALLER,
-        });
-        break;
-      } else {
-        this._iterations.push(resObj);
+      if (!testLR()) {
+        if (resObj.f_derivedNumber > 1) {
+          this._iterations.push({
+            ...resObj,
+            error: ERROR_CONSTANTS.FARFROMZERO,
+          });
+          break;
+        } else if (lastErrorValue.fromZero < this.errorValues.fromZero) {
+          this._iterations.push({
+            ...resObj,
+            error: ERROR_CONSTANTS.LASTVALUESMALLER,
+          });
+          break;
+        }
       }
+
+      this._iterations.push(resObj);
 
       this.limitCounter++;
 
