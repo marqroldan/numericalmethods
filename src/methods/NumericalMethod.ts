@@ -204,7 +204,6 @@ export default class NumericalMethod {
     this.smallestNumber = parseFloat(smallestNumber.toString());
     this.largestNumber = parseFloat(largestNumber.toString());
 
-    const derivedNumberDigits = this._roundingRules['derivedNumber'];
     let _numberParts = this.terminatingConditionValue.toString().split('.');
     let decimalNumbers = _numberParts.length > 1 ? _numberParts[1].length : 0;
 
@@ -248,7 +247,7 @@ export default class NumericalMethod {
       );
       let derivedNumber = MathUtils.round(
         this.formula(),
-        this._roundingRules['derivedNumber']
+        this._roundingRules.derivedNumber
       );
 
       if (!isFinite(derivedNumber)) {
@@ -261,11 +260,11 @@ export default class NumericalMethod {
 
       const smallestNumber = MathUtils.round(
         this.smallestNumber,
-        derivedNumberDigits
+        this._roundingRules.smallestNumber
       );
       const largestNumber = MathUtils.round(
         this.largestNumber,
-        derivedNumberDigits
+        this._roundingRules.largestNumber
       );
 
       const resObj: IterationObject = {
