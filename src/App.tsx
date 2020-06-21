@@ -36,6 +36,7 @@ interface State {
   rr_fx0: string;
   rr_fx1: string;
   rr_fx2: string;
+  iterationLimit: string;
   terminatingOperation: keyof typeof mathOperators;
   terminatingConditionValue: string;
   iterations: NumericalMethodTypes.IterationObject[];
@@ -56,6 +57,7 @@ export default class App extends React.PureComponent<{}, State> {
     rr_fx0: '5',
     rr_fx1: '5',
     rr_fx2: '5',
+    iterationLimit: '100',
     terminatingOperation: 'lte' as State['terminatingOperation'],
     terminatingConditionValue: '0.00001',
     iterations: [],
@@ -79,6 +81,7 @@ export default class App extends React.PureComponent<{}, State> {
     method.coefficients = this.state.coefficients;
     method.terminatingCondition = this.state.terminatingOperation;
     method.terminatingConditionValue = this.state.terminatingConditionValue;
+    method.limit = this.state.iterationLimit;
 
     method.roundingRules = {
       smallestNumber: this.state.rr_smallestNumber,
@@ -277,6 +280,15 @@ export default class App extends React.PureComponent<{}, State> {
         </Header>
         <Main>
           <Sidebar>
+            <FieldGroup>
+              <Field label={'Iteration Limit'}>
+                <Input
+                  value={this.state.iterationLimit}
+                  onChangeValue={this.valueChange('iterationLimit')}
+                />
+              </Field>
+            </FieldGroup>
+            <br />
             <PolynomialText value={this.state.coefficients} />
             <PossibleRoots coefficients={this.state.coefficients} />
             <TabulatedValues coefficients={this.state.coefficients} />

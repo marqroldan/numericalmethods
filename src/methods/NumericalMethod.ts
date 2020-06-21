@@ -166,7 +166,16 @@ export default class NumericalMethod {
   }
 
   private limitCounter: number = 0;
-  limit: number = 100;
+  _limit: number = 99;
+
+  set limit(value: string) {
+    this._limit = parseInt(value) - 1;
+  }
+
+  get limit() {
+    return this._limit.toString();
+  }
+
   protected formula: Function = () => 0;
 
   protected minSubtractor: number = 0;
@@ -290,7 +299,7 @@ export default class NumericalMethod {
       ) &&
       this.errorValues.fromZero != 0;
 
-    while (testLMR() && this.limitCounter <= this.limit) {
+    while (testLMR() && this.limitCounter <= this._limit) {
       let derivedNumber = MathUtils.round(
         this.formula(),
         this._roundingRules.derivedNumber
@@ -352,7 +361,7 @@ export default class NumericalMethod {
 
       this.limitCounter++;
 
-      if (this.limitCounter > this.limit) {
+      if (this.limitCounter > this._limit) {
         this._iterations.push({
           iterationNumber: this._iterations.length + 1,
           error: ERROR_CONSTANTS.LIMITREACHED,
