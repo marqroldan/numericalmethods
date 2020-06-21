@@ -102,6 +102,9 @@ export default class NumericalMethod {
     }
   }
 
+  decimalTCValue = 4;
+
+  private _terminatingConditionValueString: string = '0.0001';
   private _terminatingConditionValue: number = 0.0001;
 
   get terminatingConditionValue() {
@@ -110,8 +113,18 @@ export default class NumericalMethod {
 
   set terminatingConditionValue(value: number | string) {
     if (value != null) {
-      const parsedValue = parseFloat(value.toString());
+      let parsedValue = typeof value === 'string' ? parseFloat(value) : value;
       if (isFinite(parsedValue)) {
+        if (typeof value === 'string') {
+          this._terminatingConditionValueString = value;
+          this.decimalTCValue = MathUtils.getDecimalPlaces(value);
+        } else {
+          console.warn(
+            'Converting numbers to string might have notations (e^-x)'
+          );
+          this._terminatingConditionValueString = value.toString();
+          this.decimalTCValue = MathUtils.getDecimalPlaces(value.toString());
+        }
         this._terminatingConditionValue = parsedValue;
         return;
       }
@@ -122,8 +135,8 @@ export default class NumericalMethod {
   }
 
   constructor() {
-    this.roundingRules = MathUtils.getSignificantDigits(
-      this._terminatingConditionValue
+    this.roundingRules = MathUtils.getDecimalPlaces(
+      this._terminatingConditionValueString
     );
   }
 
@@ -254,8 +267,6 @@ export default class NumericalMethod {
     }
   };
 
-  decimalTCValue = 0;
-
   process = (
     smallestNumber: number | string,
     largestNumber: number | string
@@ -265,9 +276,6 @@ export default class NumericalMethod {
 
     this.smallestNumber = parseFloat(smallestNumber.toString());
     this.largestNumber = parseFloat(largestNumber.toString());
-    this.decimalTCValue = MathUtils.getDecimalPlaces(
-      this._terminatingConditionValue
-    );
 
     this.errorValues = this.errorValuesGenerator(9999);
 

@@ -102,6 +102,8 @@ export default class App extends React.PureComponent<{}, State> {
     const decimalPlaces = getDecimalPlaces(
       this.state.terminatingConditionValue
     );
+
+    console.log('huhhhh', this.state.terminatingConditionValue, decimalPlaces);
     const inputPlaces = decimalPlaces.toString();
     const resultPlaces = (decimalPlaces + 1).toString();
     this.setState({
