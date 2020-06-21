@@ -42,16 +42,13 @@ const SLHandler = (key: string, data: Props, settings: MethodSettings) => {
   );
 
   const style = !satisfied
-    ? ['label', 'error', 'opacity07', 'status']
+    ? ['label', 'status']
     : ['label', 'success', 'status'];
 
   return (
     <>
       {data[key]}
-      <Text className={style.join(' ')}>
-        {satisfied ? 'Satisfied' : 'Not Satisfied'}
-      </Text>
-      <Text className={'label'}>(eA: {roundedValue})</Text>
+      <Text className={style.join(' ')}>(eA: {roundedValue})</Text>
     </>
   );
 };
