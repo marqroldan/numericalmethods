@@ -60,7 +60,28 @@ const SLHandler = (key: string, data: Props, settings: MethodSettings) => {
   );
 };
 
+const fDerivedHandler = (
+  key: string,
+  data: Props,
+  settings: MethodSettings
+) => {
+  const roundedValue = Math.abs(MathUtils.round(data[key], settings[key]));
+  const satisfied = roundedValue == 0;
+
+  const style = !satisfied
+    ? ['label', 'error', 'opacity07', 'status']
+    : ['label', 'success', 'status'];
+
+  return (
+    <>
+      {roundedValue.toFixed(settings[key])}
+      <Text className={style.join(' ')}>{satisfied ? 'Satisfied' : ''}</Text>
+    </>
+  );
+};
+
 const typeHandlers = {
+  f_derivedNumber: fDerivedHandler,
   smallestNumber: SLHandler,
   largestNumber: SLHandler,
   errorValues: (key, data: AbsoluteErrors, settings: MethodSettings) => {
