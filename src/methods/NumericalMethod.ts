@@ -254,7 +254,9 @@ export default class NumericalMethod {
     const decimalNumbers = _numberParts.length > 1 ? _numberParts[1].length : 0;
     this.decimalTCValue = decimalNumbers;
 
-    let testLR = () =>
+    this.errorValues = this.errorValuesGenerator(9999);
+
+    let testLMR = () =>
       !this.terminatingOperation(
         MathUtils.round(this.errorValues.largest, this.decimalTCValue),
         this._terminatingConditionValue
@@ -262,9 +264,10 @@ export default class NumericalMethod {
       !this.terminatingOperation(
         MathUtils.round(this.errorValues.smallest, this.decimalTCValue),
         this._terminatingConditionValue
-      );
+      ) &&
+      this.errorValues.fromZero != 0;
 
-    while (testLR() && this.limitCounter <= this.limit) {
+    while (testLMR() && this.limitCounter <= this.limit) {
       let derivedNumber = MathUtils.round(
         this.formula(),
         this._roundingRules.derivedNumber
@@ -304,7 +307,7 @@ export default class NumericalMethod {
       this.errorValues = this.errorValuesGenerator(derivedNumber);
       resObj.errorValues = this.errorValues;
 
-      if (!testLR()) {
+      if (!testLMR()) {
         if (resObj.f_derivedNumber > 1) {
           this._iterations.push({
             ...resObj,

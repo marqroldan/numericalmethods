@@ -1,6 +1,5 @@
 import './styles.scss';
 import React from 'react';
-import FieldGroup from '@Components/FieldGroup';
 import Field from '@Components/Field';
 import Input from '@Components/Input';
 import Text from '@Components/Text';
