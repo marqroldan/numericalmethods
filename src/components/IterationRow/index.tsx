@@ -7,11 +7,12 @@ import {
   AbsoluteErrors,
 } from '@Methods/NumericalMethod';
 import { ERROR_CONSTANTS, ERROR_MESSAGES } from '@Methods/constants';
+import Text from '@Components/Text';
 
 interface Props {
   [key: string]: any;
   settings: MethodSettings;
-  error: keyof typeof ERROR_CONSTANTS;
+  error?: keyof typeof ERROR_CONSTANTS;
 }
 
 const INVALIDVALUES = [undefined, null];
@@ -21,14 +22,48 @@ const rowArrangement = [
   'smallestNumber',
   'derivedNumber',
   'largestNumber',
-  'errorValues',
   'f_smallestNumber',
   'f_derivedNumber',
   'f_largestNumber',
 ];
 
+const errorVMap = {
+  largestNumber: 'largest',
+  smallestNumber: 'smallest',
+} as { [key: string]: string };
+
+const SLHandler = (key: string, data: Props, settings: MethodSettings) => {
+  const errorValues = data.errorValues;
+
+  const roundedValue = MathUtils.round(
+    errorValues[errorVMap[key]],
+    settings.decimalNumbers
+  );
+
+  const satisfied = MathUtils.mathOperators[settings.terminatingCondition](
+    roundedValue,
+    settings.terminatingConditionValue
+  );
+
+  const style = !satisfied
+    ? ['label', 'error', 'opacity07', 'status']
+    : ['label', 'success', 'status'];
+
+  return (
+    <>
+      {data[key]}
+      <Text className={style.join(' ')}>
+        {satisfied ? 'Satisfied' : 'Not Satisfied'}
+      </Text>
+      <Text className={'label'}>(eA: {roundedValue})</Text>
+    </>
+  );
+};
+
 const typeHandlers = {
-  errorValues: (data: AbsoluteErrors, settings: MethodSettings) => {
+  smallestNumber: SLHandler,
+  largestNumber: SLHandler,
+  errorValues: (key, data: AbsoluteErrors, settings: MethodSettings) => {
     const roundedLargest = MathUtils.round(
       data.largest,
       settings.decimalNumbers
@@ -79,15 +114,15 @@ export default class IterationRow extends React.PureComponent<
           {rowArrangement.map((key, index) => (
             <div className={'IterationRow__col'} key={`${index}_`}>
               {!INVALIDVALUES.includes(this.props[key])
-                ? typeof this.props[key] === 'object'
-                  ? typeHandlers[key]
-                    ? typeHandlers[key](this.props[key], this.props.settings)
-                    : JSON.stringify(this.props[key])
+                ? typeHandlers[key]
+                  ? typeHandlers[key](key, this.props, this.props.settings)
                   : this.props.settings[key]
                   ? MathUtils.round(
                       this.props[key],
                       this.props.settings[key]
                     ).toFixed(this.props.settings[key])
+                  : typeof this.props[key] === 'object'
+                  ? JSON.stringify(this.props[key])
                   : this.props[key]
                 : 'Unknown'}
             </div>

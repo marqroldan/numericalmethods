@@ -23,6 +23,21 @@ span {
     letter-spacing: 1px;
     text-transform: uppercase;
   }
+
+  &.error {
+    color: $ERROR_COLOR;
+  }
+  &.success {
+    color: $SUCCESS_COLOR;
+  }
+
+  &.opacity07 {
+    opacity: 0.8;
+  }
+
+  .status {
+    font-weight: 800;
+  }
 }
 
 %input-fontStyle {
