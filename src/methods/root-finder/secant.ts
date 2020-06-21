@@ -1,4 +1,4 @@
-import NumericalMethod, { IterationValue } from './NumericalMethod';
+import NumericalMethod, { IterationValue } from '../NumericalMethod';
 
 export default class Secant extends NumericalMethod {
   constructor() {

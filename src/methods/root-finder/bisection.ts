@@ -1,5 +1,5 @@
 
-import NumericalMethod, {IterationValue} from './NumericalMethod';
+import NumericalMethod, {IterationValue} from '../NumericalMethod';
 
 export default class Bisection extends NumericalMethod {
     constructor() {

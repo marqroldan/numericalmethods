@@ -1,7 +1,7 @@
 import NumericalMethod, * as NumericalMethodTypes from './NumericalMethod';
-import Bisection from './bisection';
-import Secant from './secant';
-import RegulaFalsi from './regulafalsi';
+import Bisection from './root-finder/bisection';
+import Secant from './root-finder/secant';
+import RegulaFalsi from './root-finder/regulafalsi';
 
 interface NumericalMethods {
   [key: string]: any;
