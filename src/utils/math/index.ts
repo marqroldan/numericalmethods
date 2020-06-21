@@ -44,13 +44,18 @@ export const getDecimalPlaces = (value: number | string) => {
 export const getSignificantDigits = (value: number) => {
   const actualSignificantDigit = value.toString().replace(/^0\.?0*|\./, '') // remove decimal point and leading zeros
     .length;
-  const numberOfDecimalPlaces = value.toString().split('.').pop()?.length;
-  return actualSignificantDigit + numberOfDecimalPlaces;
+  return actualSignificantDigit + getDecimalPlaces(value);
 };
 
 export const round = (value: number | string, dp = 0) => {
+  if (value == null) {
+    return 0;
+  }
   const scaler = parseFloat('1' + '0'.repeat(dp));
-  return Math.round((parseFloat(value) + Number.EPSILON) * scaler) / scaler;
+  return (
+    Math.round((parseFloat(value.toString()) + Number.EPSILON) * scaler) /
+    scaler
+  );
 };
 
 export const coefficientsFactory = (
