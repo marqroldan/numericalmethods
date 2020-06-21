@@ -190,7 +190,7 @@ export default class App extends React.PureComponent<{}, State> {
                 </Field>
               </FieldGroup>
 
-              <FieldGroup label={'Rounding rules'}>
+              <FieldGroup label={'Rounding rules (x0-x2-x1)'}>
                 <Field>
                   <Input
                     value={this.state.rr_smallestNumber}
@@ -199,18 +199,6 @@ export default class App extends React.PureComponent<{}, State> {
                     sublabel={
                       <>
                         X<sub>0</sub>
-                      </>
-                    }
-                  />
-                </Field>
-                <Field>
-                  <Input
-                    value={this.state.rr_largestNumber}
-                    onChangeValue={this.valueChange('rr_largestNumber')}
-                    className={'small center'}
-                    sublabel={
-                      <>
-                        X<sub>1</sub>
                       </>
                     }
                   />
@@ -229,6 +217,18 @@ export default class App extends React.PureComponent<{}, State> {
                 </Field>
                 <Field>
                   <Input
+                    value={this.state.rr_largestNumber}
+                    onChangeValue={this.valueChange('rr_largestNumber')}
+                    className={'small center'}
+                    sublabel={
+                      <>
+                        X<sub>1</sub>
+                      </>
+                    }
+                  />
+                </Field>
+                <Field>
+                  <Input
                     value={this.state.rr_fx0}
                     onChangeValue={this.valueChange('rr_fx0')}
                     className={'small center'}
@@ -241,24 +241,24 @@ export default class App extends React.PureComponent<{}, State> {
                 </Field>
                 <Field>
                   <Input
-                    value={this.state.rr_fx1}
-                    onChangeValue={this.valueChange('rr_fx1')}
-                    className={'small center'}
-                    sublabel={
-                      <>
-                        f(X<sub>1</sub>)
-                      </>
-                    }
-                  />
-                </Field>
-                <Field>
-                  <Input
                     value={this.state.rr_fx2}
                     onChangeValue={this.valueChange('rr_fx2')}
                     className={'small center'}
                     sublabel={
                       <>
                         f(X<sub>2</sub>)
+                      </>
+                    }
+                  />
+                </Field>
+                <Field>
+                  <Input
+                    value={this.state.rr_fx1}
+                    onChangeValue={this.valueChange('rr_fx1')}
+                    className={'small center'}
+                    sublabel={
+                      <>
+                        f(X<sub>1</sub>)
                       </>
                     }
                   />
