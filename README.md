@@ -2,10 +2,6 @@
 
 Simple root finder made using numerical methods with React, Typescript, SCSS
 
-<p align="center">
-    By Marq Roldan
-</p>
-
 ### Implemented
 
 - Regula-Falsi
@@ -15,3 +11,7 @@ Simple root finder made using numerical methods with React, Typescript, SCSS
 ### Some features
 
 - Tabulation of values (linear)
+
+---
+
+Created by Marq Roldan
