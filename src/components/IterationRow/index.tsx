@@ -47,7 +47,7 @@ const derivedHandler = (key: string, data: Props, settings: MethodSettings) => {
 
   return (
     <>
-      {data[key]}
+      {data[key].toFixed(settings[key])}
       <Text className={style.join(' ')}>
         {satisfied ? 'This is a root' : ''}
       </Text>
@@ -75,7 +75,9 @@ const SLHandler = (key: string, data: Props, settings: MethodSettings) => {
 
   return (
     <>
-      <Text className={onSameTrack ? 'onSameTrack' : ''}>{data[key]}</Text>
+      <Text className={onSameTrack ? 'onSameTrack' : ''}>
+        {data[key].toFixed(settings[key])}
+      </Text>
       <Text className={style.join(' ')}>(eA: {roundedValue})</Text>
     </>
   );
