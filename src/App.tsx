@@ -46,7 +46,7 @@ export default class App extends React.PureComponent<{}, State> {
   formRef = React.createRef<HTMLFormElement>();
 
   state = {
-    coefficients: '2 0 3 -4 0',
+    coefficients: '1 -4 1 -10',
     method: '',
     smallestNumber: '4',
     largestNumber: '5',

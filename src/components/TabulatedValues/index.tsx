@@ -7,8 +7,7 @@ import Text from '@Components/Text';
 import { polynomialFuncFactory, coefficientsFactory } from '@Utils/math';
 
 interface XYValue {
-  x: number;
-  y: number;
+  [key: string]: number;
 }
 
 interface Pair {
@@ -22,19 +21,42 @@ interface Props {
   coefficients: string;
 }
 
-export default class TabulatedValues extends React.PureComponent<Props> {
+interface State {
+  [key: string]: any;
+  minValue: string | number;
+  maxValue: string | number;
+  polynomial: Function;
+  values: {
+    [key: string]: XYValue;
+  };
+  possiblePair: { [key: string]: Pair[] };
+  indexes: number[];
+}
+
+export default class TabulatedValues extends React.PureComponent<Props, State> {
   state = {
     minValue: '0',
     maxValue: '0',
     polynomial: () => 0,
-    values: [] as XYValue[],
-    possiblePair: [] as Pair[],
+    values: {
+      /**
+        [coefficient string]: {
+          [x]: [y]
+        } 
+
+       */
+    } as {
+      [key: string]: XYValue;
+    },
+    possiblePair: {} as { [key: string]: Pair[] },
+    indexes: [],
   };
 
   generatorTimeout: ReturnType<typeof setTimeout> = setTimeout(() => null, 0);
 
   generateValues = () => {
     console.log('wazup tr');
+    const pastData = this.state.values[this.props.coefficients] || {};
     const coefficients = coefficientsFactory(this.props.coefficients);
     const polyFunc = polynomialFuncFactory(coefficients.reverse());
 
@@ -47,34 +69,59 @@ export default class TabulatedValues extends React.PureComponent<Props> {
       parseFloat(this.state.maxValue)
     );
 
-    let tabulatedValues: XYValue[] = [];
+    if (!isFinite(minValue) || !isFinite(maxValue)) {
+      this.setState({
+        minValue: 0,
+        maxValue: 0,
+      });
+      return;
+    }
+
+    let tabulatedValues: XYValue = {};
     let possiblePair: Pair[] = [];
+    let indexes: number[] = [];
 
     for (let i = minValue; i <= maxValue; i++) {
-      const tabValue = {
-        x: i,
-        y: polyFunc(i),
-      };
+      const tabValue =
+        pastData[i] != null
+          ? {
+              x: i,
+              y: pastData[i],
+            }
+          : {
+              x: i,
+              y: polyFunc(i),
+            };
 
       if (
-        tabulatedValues[tabulatedValues.length - 1] &&
-        tabulatedValues[tabulatedValues.length - 1].y > 0 != tabValue.y > 0
+        tabulatedValues[i - 1] != null &&
+        tabulatedValues[i - 1] > 0 != tabValue.y > 0
       ) {
         possiblePair.push({
-          x1: tabulatedValues[tabulatedValues.length - 1].x,
-          y1: tabulatedValues[tabulatedValues.length - 1].y,
+          x1: i - 1,
+          y1: tabulatedValues[i - 1],
           x2: tabValue.x,
           y2: tabValue.y,
         });
       }
-      tabulatedValues.push(tabValue);
+      indexes.push(i);
+      tabulatedValues[i] = tabValue.y;
     }
 
     console.log('Coefficients Value:', coefficients);
     console.log(`Complete tabulated values from ${minValue} to ${maxValue}`);
     console.table(tabulatedValues);
 
-    this.setState({ values: tabulatedValues, possiblePair });
+    this.setState((state) => ({
+      minValue,
+      maxValue,
+      values: { ...state.values, [this.props.coefficients]: tabulatedValues },
+      possiblePair: {
+        ...state.possiblePair,
+        [this.props.coefficients]: possiblePair,
+      },
+      indexes,
+    }));
   };
 
   valueChange = (target: string) => (value: string) => {
@@ -98,11 +145,12 @@ export default class TabulatedValues extends React.PureComponent<Props> {
   }
 
   render() {
+    const possiblePairs =
+      this.state.possiblePair[this.props.coefficients] || [];
+    const tabulatedValues = this.state.values[this.props.coefficients] || {};
     return (
       <div className={'TabulatedValues'}>
-        <Text className={'heading3'}>Possible Pairs (WIP)</Text>
-        <br />
-        Currently done linearly ({this.state.possiblePair.length})
+        <Text className={'heading3'}>Values Locator</Text>
         <div className={'TabulatedValuesRanges'}>
           <Field label={'Minimum'}>
             <Input
@@ -120,31 +168,52 @@ export default class TabulatedValues extends React.PureComponent<Props> {
           </Field>
         </div>
         <br />
-        Check the console (F12) for complete tabulated values (
-        {this.state.values.length})
+        <Text className={'heading3'}>Possible Pairs</Text>
         <div className={'TabulatedValues__rows'}>
-          {this.state.possiblePair.map((item, index) => {
+          <div className={'TabulatedValues__table'}>
+            <div
+              className={
+                'TabulatedValues__tableRow TabulatedValues__tableRow--header'
+              }
+            >
+              <div className={'TabulatedValues__tableCol'}>X</div>
+              <div className={'TabulatedValues__tableCol'}>f(X)</div>
+            </div>
+            {possiblePairs.map((item, index) => {
+              return (
+                <>
+                  <div className={'TabulatedValues__tableRow'}>
+                    <div className={'TabulatedValues__tableCol'}>{item.x1}</div>
+                    <div className={'TabulatedValues__tableCol'}>{item.y1}</div>
+                  </div>
+
+                  <div className={'TabulatedValues__tableRow'}>
+                    <div className={'TabulatedValues__tableCol'}>{item.x2}</div>
+                    <div className={'TabulatedValues__tableCol'}>{item.y2}</div>
+                  </div>
+                  {index !== possiblePairs.length - 1 ? <br /> : null}
+                </>
+              );
+            })}
+          </div>
+        </div>
+        <br />
+        <Text className={'heading3'}>Tabulated Values</Text>
+        <div className={'TabulatedValues__table'}>
+          <div
+            className={
+              'TabulatedValues__tableRow TabulatedValues__tableRow--header'
+            }
+          >
+            <div className={'TabulatedValues__tableCol'}>X</div>
+            <div className={'TabulatedValues__tableCol'}>f(X)</div>
+          </div>
+          {this.state.indexes.map((item) => {
             return (
-              <div className={'TabulatedValues__row'} key={`${index}_`}>
-                <div className={'TabulatedValues__rowValues'}>
-                  <div className={'TabulatedValues__rowValue'}>
-                    <Text className={'label'}>Low X</Text>
-                    <div className={'TabulatedValues__value'}>{item.x1}</div>
-                  </div>
-                  <div className={'TabulatedValues__rowValue'}>
-                    <Text className={'label'}>High X</Text>
-                    <div className={'TabulatedValues__value'}>{item.x2}</div>
-                  </div>
-                </div>
-                <div className={'TabulatedValues__rowValues'}>
-                  <div className={'TabulatedValues__rowValue'}>
-                    <Text className={'label'}>Low Y</Text>
-                    <div className={'TabulatedValues__value'}>{item.y1}</div>
-                  </div>
-                  <div className={'TabulatedValues__rowValue'}>
-                    <Text className={'label'}>High Y</Text>
-                    <div className={'TabulatedValues__value'}>{item.y2}</div>
-                  </div>
+              <div className={'TabulatedValues__tableRow'}>
+                <div className={'TabulatedValues__tableCol'}>{item}</div>
+                <div className={'TabulatedValues__tableCol'}>
+                  {tabulatedValues[item]}
                 </div>
               </div>
             );

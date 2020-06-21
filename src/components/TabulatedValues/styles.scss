@@ -34,4 +34,39 @@
   &__value {
     word-break: break-all;
   }
+
+  &__table {
+    width: 100%;
+    padding: 0 10px;
+
+    padding-top: 7px;
+
+    &td,
+    &th {
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    &Col {
+      padding: 5px;
+
+      &:first-child {
+        border-right: 1px solid rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    &Row {
+      display: grid;
+      grid-template-columns: 50px 1fr;
+
+      &:nth-child(odd) {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+
+      &--header {
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.5) !important;
+        font-weight: 700;
+      }
+    }
+  }
 }
