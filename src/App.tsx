@@ -98,22 +98,32 @@ export default class App extends React.PureComponent<{}, State> {
     });
   };
 
+  updateRoundingRules = () => {
+    const decimalPlaces = getDecimalPlaces(
+      this.state.terminatingConditionValue
+    );
+    const inputPlaces = decimalPlaces.toString();
+    const resultPlaces = (decimalPlaces + 1).toString();
+    this.setState({
+      rr_smallestNumber: inputPlaces,
+      rr_largestNumber: inputPlaces,
+      rr_derivedNumber: inputPlaces,
+      rr_fx0: resultPlaces,
+      rr_fx1: resultPlaces,
+      rr_fx2: resultPlaces,
+    });
+  };
+
+  componentDidMount() {
+    this.updateRoundingRules();
+  }
+
   componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<State>) {
     if (
       this.state.terminatingConditionValue !==
       prevState.terminatingConditionValue
     ) {
-      const decimalPlaces = getDecimalPlaces(
-        this.state.terminatingConditionValue
-      ).toString();
-      this.setState({
-        rr_smallestNumber: decimalPlaces,
-        rr_largestNumber: decimalPlaces,
-        rr_derivedNumber: decimalPlaces,
-        rr_fx0: decimalPlaces,
-        rr_fx1: decimalPlaces,
-        rr_fx2: decimalPlaces,
-      });
+      this.updateRoundingRules();
     }
   }
 
