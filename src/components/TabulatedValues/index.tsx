@@ -181,7 +181,7 @@ export default class TabulatedValues extends React.PureComponent<Props, State> {
             </div>
             {possiblePairs.map((item, index) => {
               return (
-                <>
+                <React.Fragment key={`${index}_`}>
                   <div className={'TabulatedValues__tableRow'}>
                     <div className={'TabulatedValues__tableCol'}>{item.x1}</div>
                     <div className={'TabulatedValues__tableCol'}>{item.y1}</div>
@@ -192,7 +192,7 @@ export default class TabulatedValues extends React.PureComponent<Props, State> {
                     <div className={'TabulatedValues__tableCol'}>{item.y2}</div>
                   </div>
                   {index !== possiblePairs.length - 1 ? <br /> : null}
-                </>
+                </React.Fragment>
               );
             })}
           </div>
@@ -208,9 +208,9 @@ export default class TabulatedValues extends React.PureComponent<Props, State> {
             <div className={'TabulatedValues__tableCol'}>X</div>
             <div className={'TabulatedValues__tableCol'}>f(X)</div>
           </div>
-          {this.state.indexes.map((item) => {
+          {this.state.indexes.map((item, index) => {
             return (
-              <div className={'TabulatedValues__tableRow'}>
+              <div className={'TabulatedValues__tableRow'} key={`${index}_`}>
                 <div className={'TabulatedValues__tableCol'}>{item}</div>
                 <div className={'TabulatedValues__tableCol'}>
                   {tabulatedValues[item]}
