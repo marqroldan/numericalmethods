@@ -28,8 +28,36 @@ const errorVMap = {
   smallestNumber: 'smallest',
 } as { [key: string]: string };
 
+const trackVMap = {
+  right: 'largestNumber',
+  left: 'smallestNumber',
+  center: 'derivedNumber',
+} as { [key: string]: string };
+
+const derivedHandler = (key: string, data: Props, settings: MethodSettings) => {
+  const roundedValue = MathUtils.round(
+    data.f_derivedNumber,
+    settings.f_derivedNumber
+  );
+  const satisfied = Math.abs(roundedValue) == 0;
+
+  const style = !satisfied
+    ? ['label', 'error', 'opacity07', 'status']
+    : ['label', 'success', 'status'];
+
+  return (
+    <>
+      {data[key]}
+      <Text className={style.join(' ')}>
+        {satisfied ? 'This is a root' : ''}
+      </Text>
+    </>
+  );
+};
+
 const SLHandler = (key: string, data: Props, settings: MethodSettings) => {
   const errorValues = data.errorValues;
+  const onSameTrack = trackVMap[data.track] === key;
 
   const roundedValue = MathUtils.round(
     errorValues[errorVMap[key]],
@@ -47,7 +75,7 @@ const SLHandler = (key: string, data: Props, settings: MethodSettings) => {
 
   return (
     <>
-      {data[key]}
+      <Text className={onSameTrack ? 'onSameTrack' : ''}>{data[key]}</Text>
       <Text className={style.join(' ')}>(eA: {roundedValue})</Text>
     </>
   );
@@ -58,8 +86,8 @@ const fDerivedHandler = (
   data: Props,
   settings: MethodSettings
 ) => {
-  const roundedValue = Math.abs(MathUtils.round(data[key], settings[key]));
-  const satisfied = roundedValue == 0;
+  const roundedValue = MathUtils.round(data[key], settings[key]);
+  const satisfied = Math.abs(roundedValue) == 0;
 
   const style = !satisfied
     ? ['label', 'error', 'opacity07', 'status']
@@ -75,6 +103,7 @@ const fDerivedHandler = (
 
 const typeHandlers = {
   f_derivedNumber: fDerivedHandler,
+  derivedNumber: derivedHandler,
   smallestNumber: SLHandler,
   largestNumber: SLHandler,
   errorValues: (key: string, data: Props, settings: MethodSettings) => {

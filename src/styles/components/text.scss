@@ -28,15 +28,29 @@ span {
     color: $ERROR_COLOR;
   }
   &.success {
-    color: $SUCCESS_COLOR;
+    background: $SUCCESS_COLOR;
+    padding: 3px 7px;
+    font-weight: 700;
+    letter-spacing: 0px !important;
+    color: black;
   }
 
   &.opacity07 {
     opacity: 0.8;
   }
 
-  .status {
-    font-weight: 800;
+  &.status {
+    letter-spacing: 2px;
+  }
+
+  &.onSameTrack {
+    color: #00c2ff;
+    font-weight: 700;
+    text-decoration: underline;
+
+    &:not(:last-child) {
+      padding-bottom: 3px;
+    }
   }
 }
 

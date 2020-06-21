@@ -12,8 +12,10 @@ export interface AbsoluteErrors {
   fromZero: number;
 }
 
+export type IterationTrack = 'left' | 'center' | 'right';
 export interface IterationResult {
   [key: string]: any;
+  track: IterationTrack;
   errorValues: AbsoluteErrors;
   smallestNumber: number;
   largestNumber: number;
@@ -160,6 +162,20 @@ export default class NumericalMethod {
   protected smallestNumber: number = 0;
   protected largestNumber: number = 0;
 
+  private track: IterationTrack = 'center';
+  private changeTracker: Function = (
+    resObj: IterationResult
+  ): IterationTrack => {
+    if (resObj.f_derivedNumber > 0) {
+      this.track = 'right';
+    } else if (resObj.f_derivedNumber < 0) {
+      this.track = 'left';
+    } else {
+      this.track = 'center';
+    }
+    return this.track;
+  };
+
   protected rule: Function = (resObj: IterationResult) => {
     this.maxSubtractor = this.largestNumber;
     this.minSubtractor = this.smallestNumber;
@@ -291,6 +307,7 @@ export default class NumericalMethod {
       );
 
       const resObj: IterationObject = {
+        track: this.track,
         errorValues: this.errorValues,
         iterationNumber: this._iterations.length + 1,
         derivedNumber,
@@ -302,6 +319,7 @@ export default class NumericalMethod {
       };
 
       this.rule(resObj);
+      this.changeTracker(resObj);
 
       const lastErrorValue: AbsoluteErrors = this.errorValues;
       this.errorValues = this.errorValuesGenerator(derivedNumber);
