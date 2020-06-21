@@ -1,27 +1,35 @@
+import NumericalMethod, { IterationValue } from './NumericalMethod';
+
+export default class RegulaFalsi extends NumericalMethod {
+  constructor() {
+    super();
+    this.rule = (resObj: IterationValue) => {
+      this.maxSubtractor = this.largestNumber;
+      this.minSubtractor = this.smallestNumber;
+
+      if (resObj.f_derivedNumber > 0) {
+        this.maxSubtractor = this.largestNumber;
+        this.largestNumber = resObj.derivedNumber;
+      } else {
+        this.minSubtractor = this.smallestNumber;
+        this.smallestNumber = resObj.derivedNumber;
+      }
+    };
+    this.formula = () => {
+      return (
+        this.smallestNumber -
+        this.polynomialFunction(this.smallestNumber) *
+          ((this.smallestNumber - this.largestNumber) /
+            (this.polynomialFunction(this.smallestNumber) -
+              this.polynomialFunction(this.largestNumber)))
+      );
+    };
+  }
+}
 
 /*
-Regula-Falsi
 
-Iterative formula
-Terminating condition
- => {
-  absoluteError < x
-
-  what is absoluteError?
-  
-
- }
-
-----
-
-const answer = firstVal - (func(firstVal) * ((firstVal - zerothVal)/(func(firstVal) - func(zerothVal)))
-
-*/
-
-import * as MathInterfaces from '@Utils/math/interfaces';
-import * as MathUtils from '@Utils/math';
-
-export default function(coefficients: MathInterfaces.ICoefficients, smallestNumber: number, largestNumber: number, terminatingConditionValue: number, terminatingCondition: keyof typeof MathUtils.mathOperators = 'lte') {
+function(coefficients: MathInterfaces.ICoefficients, smallestNumber: number, largestNumber: number, terminatingConditionValue: number, terminatingCondition: keyof typeof MathUtils.mathOperators = 'lte') {
     const mFunc = MathUtils.polynomialFuncFactory(coefficients);
 
     const iterativeFormula = (xNegNumber: number = smallestNumber, xPosNumber: number = largestNumber) => {
@@ -42,17 +50,20 @@ export default function(coefficients: MathInterfaces.ICoefficients, smallestNumb
 
     let subtractor = 0;
     const decimalPlaces: number = terminatingConditionValue.toString().split('.').pop().length || 4;
+    const significantDigits = MathUtils.getSignificantDigits(terminatingConditionValue);
+
+    console.log("Significant Digits", significantDigits);
 
     while (!tOperation(parseFloat(Math.abs(resValue - subtractor).toFixed(decimalPlaces)), terminatingConditionValue)) {
         console.log(resValue.toPrecision(decimalPlaces));
-        let xtValue = iterativeFormula(xLNumber, xRNumber);
+        let xtValue = parseFloat(iterativeFormula(xLNumber, xRNumber).toPrecision(significantDigits));
         const currRes = {
             xtValue,
             xLNumber,
             xRNumber,
-            fxTValue: mFunc(xtValue),
-            fxLValue: mFunc(xLNumber),
-            fxRValue: mFunc(xRNumber),
+            fxTValue: parseFloat(mFunc(xtValue).toPrecision(significantDigits)),
+            fxLValue: parseFloat(mFunc(xLNumber).toPrecision(significantDigits)),
+            fxRValue: parseFloat(mFunc(xRNumber).toPrecision(significantDigits)),
         };
         
         result.push(currRes);
@@ -127,7 +138,6 @@ export const example2 = () => {
         }
 
 
-
         if (tabulatedValues[startXValue] > 0) {
             if (tabulatedValues[lastLeftValue] < 0) {
                 foundPositiveAndNegative = true;
@@ -141,10 +151,6 @@ export const example2 = () => {
         } else {
             foundRoot = true;
             break;
-            //right bias?
-            /*
-                what would be a good bias?
-            */
         }
 
         const compareLeft = tabulatedValues[startXValue] > tabulatedValues[lastLeftValue];
@@ -183,9 +189,6 @@ export const example2 = () => {
     //if 0 > -1; go to 1 + 1
 
 
-
-
-
-
-
 }
+
+*/

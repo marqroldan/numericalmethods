@@ -1,0 +1,16 @@
+input {
+  @extend %input-fontStyle;
+  @extend %border-box;
+
+  background: #242424;
+  border: 0;
+  outline: 0;
+  border-radius: 10px;
+  padding: 13px;
+  display: inline-block;
+  width: 100%;
+
+  @media (max-width: 1400px) {
+    max-width: 150px;
+  }
+}

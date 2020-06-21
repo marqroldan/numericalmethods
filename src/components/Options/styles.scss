@@ -1,0 +1,77 @@
+@import '@Styles/global.scss';
+
+.Options {
+  @extend %input-fontStyle;
+  @extend %border-box;
+
+  position: absolute;
+  background-color: #242424;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding-top: 3px;
+  padding-bottom: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 10;
+
+  &:hover,
+  &--expanded {
+    background-image: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.27) 0%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  &--expanded {
+    width: 100%;
+    padding: 10px;
+    justify-content: space-around;
+  }
+
+  &__item {
+    @extend %input-fontStyle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25px;
+    width: 25px;
+    flex: 1;
+    border-radius: 8px;
+    padding-top: 3px;
+    padding-bottom: 6px;
+    cursor: pointer;
+    margin: 0 5px;
+
+    &:first-child {
+      margin-left: 0px !important;
+    }
+
+    &:last-child {
+      margin-right: 0px !important;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    &--selected {
+      background-color: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+  }
+}

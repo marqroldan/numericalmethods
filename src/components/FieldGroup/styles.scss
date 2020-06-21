@@ -1,0 +1,17 @@
+.field {
+  &Group {
+    display: flex;
+    margin-right: 40px;
+    align-items: center;
+
+    &--withLabel {
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &:last-child {
+      margin-right: 0px;
+    }
+  }
+}

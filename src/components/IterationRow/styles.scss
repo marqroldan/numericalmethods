@@ -1,0 +1,69 @@
+@import '@Styles/config';
+
+.IterationRow {
+  $parent: &;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+  &Container {
+    &:nth-child(odd) {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    &--error {
+      border: 1px solid $ERROR_COLOR;
+    }
+  }
+
+  &__col {
+    display: flex;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  &--header {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background-color: rgba(32, 32, 32, 1);
+    position: sticky;
+    top: 0;
+    z-index: 9;
+
+    & #{$parent}__col {
+      $name: &;
+
+      #{$parent}__col--small {
+        display: none;
+      }
+
+      &:first-child {
+        @media (max-width: 1400px) {
+          & #{$parent}__col--big {
+            display: none;
+          }
+
+          & #{$parent}__col--small {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+  &Error {
+    border: 1px solid $ERROR_COLOR;
+
+    &Text {
+      box-sizing: border-box;
+      width: 100%;
+      background: $ERROR_COLOR;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      padding: 15px;
+    }
+  }
+}
