@@ -122,14 +122,14 @@ const typeHandlers = {
 export default class IterationRow extends React.PureComponent<
   Props & IterationObject
 > {
-  originalStyle = [
-    'IterationRowContainer',
-    ...(this.props.error ? ['IterationRowContainer--error'] : []),
-  ].join(' ');
-
   render() {
+    const containerStyle = [
+      'IterationRowContainer',
+      ...(this.props.error ? ['IterationRowContainer--error'] : []),
+    ].join(' ');
+
     return (
-      <div className={this.originalStyle}>
+      <div className={containerStyle}>
         <div className={'IterationRow'}>
           {rowArrangement.map((key, index) => (
             <div className={'IterationRow__col'} key={`${index}_`}>
