@@ -238,7 +238,7 @@ export default class NumericalMethod {
     };
   }
 
-  set settings(val: MethodSettings) {
+  set settings(_: MethodSettings) {
     return;
   }
 

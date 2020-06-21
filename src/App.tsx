@@ -123,7 +123,7 @@ export default class App extends React.PureComponent<{}, State> {
     this.updateRoundingRules();
   }
 
-  componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<State>) {
+  componentDidUpdate(_: Readonly<{}>, prevState: Readonly<State>) {
     if (
       this.state.terminatingConditionValue !==
       prevState.terminatingConditionValue
