@@ -36,6 +36,11 @@ export const mathOperatorsArr = [
   */
 ];
 
+export const getDecimalPlaces = (value: number | string) => {
+  const _numberParts = value.toString().split('.');
+  return _numberParts.length > 1 ? _numberParts[1].length : 0;
+};
+
 export const getSignificantDigits = (value: number) => {
   const actualSignificantDigit = value.toString().replace(/^0\.?0*|\./, '') // remove decimal point and leading zeros
     .length;

@@ -20,7 +20,7 @@ import PossibleRoots from '@Components/PossibleRoots';
 import TabulatedValues from '@Components/TabulatedValues';
 
 import Options from '@Components/Options';
-import { mathOperators, mathOperatorsArr } from '@Utils/math';
+import { mathOperators, mathOperatorsArr, getDecimalPlaces } from '@Utils/math';
 
 const MethodsList = Object.keys(NumericalMethods);
 
@@ -97,6 +97,25 @@ export default class App extends React.PureComponent<{}, State> {
       settings: method.settings as State['settings'],
     });
   };
+
+  componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<State>) {
+    if (
+      this.state.terminatingConditionValue !==
+      prevState.terminatingConditionValue
+    ) {
+      const decimalPlaces = getDecimalPlaces(
+        this.state.terminatingConditionValue
+      ).toString();
+      this.setState({
+        rr_smallestNumber: decimalPlaces,
+        rr_largestNumber: decimalPlaces,
+        rr_derivedNumber: decimalPlaces,
+        rr_fx0: decimalPlaces,
+        rr_fx1: decimalPlaces,
+        rr_fx2: decimalPlaces,
+      });
+    }
+  }
 
   render() {
     return (

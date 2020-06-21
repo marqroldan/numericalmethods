@@ -265,10 +265,9 @@ export default class NumericalMethod {
 
     this.smallestNumber = parseFloat(smallestNumber.toString());
     this.largestNumber = parseFloat(largestNumber.toString());
-
-    const _numberParts = this._terminatingConditionValue.toString().split('.');
-    const decimalNumbers = _numberParts.length > 1 ? _numberParts[1].length : 0;
-    this.decimalTCValue = decimalNumbers;
+    this.decimalTCValue = MathUtils.getDecimalPlaces(
+      this._terminatingConditionValue
+    );
 
     this.errorValues = this.errorValuesGenerator(9999);
 
