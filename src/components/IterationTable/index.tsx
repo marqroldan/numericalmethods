@@ -14,7 +14,10 @@ export default class IterationTable extends React.PureComponent<Props> {
     return (
       <div className={'IterationTable'}>
         <div className={'IterationRow IterationRow--header'}>
-          <div className={'IterationRow__col'}>Iteration Number</div>
+          <div className={'IterationRow__col'}>
+            <span className={'IterationRow__col--big'}>Iteration Number</span>
+            <span className={'IterationRow__col--small'}>#</span>
+          </div>
           <div className={'IterationRow__col'}>x0</div>
           <div className={'IterationRow__col'}>x2</div>
           <div className={'IterationRow__col'}>x1</div>

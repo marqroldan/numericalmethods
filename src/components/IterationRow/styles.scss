@@ -1,6 +1,7 @@
 @import '@Styles/config';
 
 .IterationRow {
+  $parent: &;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 
@@ -29,6 +30,26 @@
     position: sticky;
     top: 0;
     z-index: 9;
+
+    & #{$parent}__col {
+      $name: &;
+
+      #{$parent}__col--small {
+        display: none;
+      }
+
+      &:first-child {
+        @media (max-width: 1400px) {
+          & #{$parent}__col--big {
+            display: none;
+          }
+
+          & #{$parent}__col--small {
+            display: block;
+          }
+        }
+      }
+    }
   }
 
   &Error {
