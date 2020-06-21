@@ -2,6 +2,8 @@
 
 Simple root finder made using numerical methods with React, Typescript, SCSS
 
+https://marqroldan.github.io/numericalmethods/
+
 ### Implemented
 
 - Regula-Falsi
