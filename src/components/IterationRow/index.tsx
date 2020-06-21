@@ -1,11 +1,7 @@
 import './styles.scss';
 import React from 'react';
 import * as MathUtils from '@Utils/math';
-import {
-  IterationObject,
-  MethodSettings,
-  AbsoluteErrors,
-} from '@Methods/NumericalMethod';
+import { IterationObject, MethodSettings } from '@Methods/NumericalMethod';
 import { ERROR_CONSTANTS, ERROR_MESSAGES } from '@Methods/constants';
 import Text from '@Components/Text';
 
@@ -84,19 +80,22 @@ const typeHandlers = {
   f_derivedNumber: fDerivedHandler,
   smallestNumber: SLHandler,
   largestNumber: SLHandler,
-  errorValues: (key, data: AbsoluteErrors, settings: MethodSettings) => {
+  errorValues: (key: string, data: Props, settings: MethodSettings) => {
+    const errorValues = data[key];
     const roundedLargest = MathUtils.round(
-      data.largest,
+      errorValues.largest,
       settings.decimalNumbers
     );
     const roundedSmallest = MathUtils.round(
-      data.smallest,
+      errorValues.smallest,
       settings.decimalNumbers
     );
+    /*
     const roundedFromZero = MathUtils.round(
       data.fromZero,
       settings.decimalNumbers + 3
     );
+    */
 
     return (
       <>
